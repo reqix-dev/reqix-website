@@ -11,6 +11,9 @@ import {
   type Locale,
 } from "./site-content";
 
+const COMMUNITY_URL = "https://github.com/reqix-dev/reqix/discussions";
+const ISSUES_URL = "https://github.com/reqix-dev/reqix/issues";
+
 function ReqixLogo() {
   return (
     <span className="brand-lockup">
@@ -39,7 +42,6 @@ function SiteHeader({ locale, currentPath }: { locale: Locale; currentPath: stri
   const link = (path: string) => publicPath(localizePath(locale, path));
   const home = link("/");
   const docs = link("/docs");
-  const privacy = link("/privacy");
   const download = link("/download");
 
   const nav = (
@@ -47,7 +49,7 @@ function SiteHeader({ locale, currentPath }: { locale: Locale; currentPath: stri
       <a href={`${home}#product`}>{t.product}</a>
       <a href={`${home}#workflow`}>{t.workflow}</a>
       <a href={docs}>{t.docs}</a>
-      <a href={privacy}>{t.privacy}</a>
+      <a href={COMMUNITY_URL}>{t.community}</a>
       <a href={link("/changelog")}>{t.changelog}</a>
     </>
   );
@@ -105,15 +107,15 @@ function SiteFooter({ locale }: { locale: Locale }) {
         </div>
         <div>
           <h2>{t.resources}</h2>
+          <a href={COMMUNITY_URL}>{t.community}</a>
+          <a href={ISSUES_URL}>{t.issues}</a>
           <a href={path("/changelog")}>{t.changelog}</a>
-          <a href={path("/download")}>{ui[locale].nav.download}</a>
-          <a href={path("/download")}>{t.source}</a>
         </div>
         <div>
           <h2>{t.legal}</h2>
           <a href={path("/permissions")}>{t.permissions}</a>
           <a href={path("/privacy")}>{t.privacy}</a>
-          <a href={path("/changelog")}>{t.changelog}</a>
+          <a href={path("/download")}>{ui[locale].nav.download}</a>
         </div>
       </div>
       <div className="shell footer-bottom">

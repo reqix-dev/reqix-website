@@ -29,6 +29,24 @@ test("静态导出英文、文档和隐私路由", async () => {
   assert.match(english, /Turn real traffic/);
   assert.match(docs, /用 5 分钟创建第一条请求规则/);
   assert.match(privacy, /最近请求快照与命中日志超过 24 小时后自动清理/);
+  assert.match(privacy, /GitHub Pages/);
+  assert.doesNotMatch(privacy, /reqix\.dev/);
+});
+
+test("全站导航提供社区入口且页脚不再重复链接", async () => {
+  const [html, siteSource] = await Promise.all([
+    readRoute("/"),
+    readFile(new URL("../app/site.tsx", import.meta.url), "utf8"),
+  ]);
+  assert.match(html, /https:\/\/github\.com\/reqix-dev\/reqix\/discussions/);
+  assert.match(html, /https:\/\/github\.com\/reqix-dev\/reqix\/issues/);
+  const footerSource = siteSource.slice(
+    siteSource.indexOf("function SiteFooter"),
+    siteSource.indexOf("function SiteShell"),
+  );
+  assert.equal((footerSource.match(/path\("\/changelog"\)/g) || []).length, 1);
+  assert.equal((footerSource.match(/path\("\/download"\)/g) || []).length, 1);
+  assert.doesNotMatch(footerSource, /t\.source/);
 });
 
 test("GitHub Pages 构建使用仓库子路径", async () => {
