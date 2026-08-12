@@ -353,6 +353,7 @@ export function ArticlePage({ locale, id }: { locale: Locale; id: ArticleId }) {
               <section key={section.title} id={`section-${sectionIndex + 1}`}>
                 <h2>{section.title}</h2>
                 {section.paragraphs?.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+                {section.links?.map((item) => <p key={item.href}><a className="text-link" href={item.href}>{item.label}<span aria-hidden="true">→</span></a></p>)}
                 {section.steps && <ol className="article-steps">{section.steps.map((step) => <li key={step.title}><span>{String(section.steps!.indexOf(step) + 1).padStart(2, "0")}</span><div><h3>{step.title}</h3><p>{step.body}</p></div></li>)}</ol>}
                 {section.items && <ul>{section.items.map((item) => <li key={item}>{item}</li>)}</ul>}
                 {section.code && <div className="code-block"><div className="code-bar"><span></span><span></span><span></span><b>{locale === "zh" ? "终端 / 示例" : "Terminal / example"}</b></div><pre><code>{section.code}</code></pre></div>}

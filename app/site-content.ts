@@ -13,6 +13,7 @@ export type ArticleId =
 export interface ArticleSection {
   title: string;
   paragraphs?: string[];
+  links?: Array<{ label: string; href: string }>;
   items?: string[];
   steps?: Array<{ title: string; body: string }>;
   code?: string;
@@ -49,7 +50,7 @@ export const ui = {
       secondary: "了解权限",
       local: "本地优先",
       noAccount: "无需账号",
-      browsers: "Chrome / Edge 121+",
+      browsers: "Chrome / Edge 138+",
       previewKicker: "Reqix DevTools",
       previewLive: "实时捕获",
       previewSearch: "筛选 Fetch/XHR",
@@ -150,7 +151,7 @@ export const ui = {
       secondary: "Review permissions",
       local: "Local-first",
       noAccount: "No account",
-      browsers: "Chrome / Edge 121+",
+      browsers: "Chrome / Edge 138+",
       previewKicker: "Reqix DevTools",
       previewLive: "Live capture",
       previewSearch: "Filter Fetch/XHR",
@@ -423,7 +424,7 @@ const zhArticles: Record<ArticleId, Article> = {
     sections: [
       { title: "1. 适用范围与产品目的", paragraphs: ["本政策适用于 Reqix Chrome 与 Edge 扩展及 Reqix 官方网站。扩展的单一用途是为用户提供网络请求拦截、API Mock、请求调试和直接相关的页面调试能力。"] },
       { title: "2. 扩展处理的数据", items: ["用户创建或导入的规则、分组、页面脚本与设置。", "捕获的 Fetch/XHR URL、Method、Query、Header、请求体、状态码与响应内容。", "规则命中记录、当前标签页站点和运行状态。", "导入、导出文件中由用户选择包含的数据。"] },
-      { title: "3. 数据如何产生", paragraphs: ["数据来自用户主动配置、导入，或在 Reqix 已启用并运行于目标页面时产生。请求快照仅用于在 Popup、DevTools 和管理中心中帮助用户创建、检查和验证规则。"] },
+      { title: "3. 数据如何产生", paragraphs: ["数据来自用户主动配置、导入，或在 Reqix 已启用并运行于目标页面时产生。首次开启请求接管前，Reqix 会显著说明所处理的数据、用途、本地存储和可用控制，并要求用户明确确认；确认后才会处理已启用网站的 Fetch/XHR。请求快照仅用于在 Popup、DevTools 和管理中心中帮助用户创建、检查和验证规则。"] },
       { title: "4. 本地存储与保留期限", paragraphs: ["规则、分组、设置和页面脚本保存在浏览器扩展本地存储中，直至用户删除、清除扩展数据或卸载扩展。最近请求快照与命中日志超过 24 小时后自动清理。"] },
       { title: "5. 传输、共享与遥测", paragraphs: ["Reqix 不设账号、云同步、广告或插件遥测，不将规则、页面脚本、捕获的请求和响应发送到 Reqix 开发者服务器或第三方分析服务。用户访问 Reqix 官方网站时，GitHub Pages 可能按 GitHub 的政策记录常规访问日志。"] },
       { title: "6. 敏感信息", paragraphs: ["请求快照与导出文件可能包含认证 Header、Cookie、业务请求体或响应内容。请在启用、导出、共享或导入前检查数据，只导入可信来源的配置和脚本。"] },
@@ -431,7 +432,7 @@ const zhArticles: Record<ArticleId, Article> = {
       { title: "8. 用户控制与删除", items: ["在管理中心停用或删除规则、分组和页面脚本。", "清理最近请求、命中日志或全部扩展数据。", "在浏览器扩展设置中限制站点访问或卸载 Reqix。", "在导出前取消选择不希望包含的数据。"] },
       { title: "9. 儿童隐私", paragraphs: ["Reqix 面向软件开发与调试用途，不以儿童为目标用户，也不会主动收集用于识别儿童身份的信息。"] },
       { title: "10. 政策变更", paragraphs: ["当产品数据处理方式发生实质变化时，我们会更新本页，并按 Chrome Web Store 政策在产品内提供必要的显著说明。"] },
-      { title: "11. 联系方式与 Limited Use", paragraphs: ["正式发布时，本页会同步公布官方支持联系方式。Reqix 对浏览器数据的使用仅限于提供和改进用户可见的网络调试功能，并遵守 Chrome Web Store User Data Policy（包括 Limited Use 要求）。"] },
+      { title: "11. 联系方式与 Limited Use", paragraphs: ["如对本政策、权限或数据处理方式有疑问，请通过 Reqix GitHub Discussions 联系维护者。Reqix 对浏览器数据的使用仅限于提供和改进用户可见的网络调试功能，并遵守 Chrome Web Store User Data Policy（包括 Limited Use 要求）。"], links: [{ label: "前往 Reqix GitHub Discussions", href: "https://github.com/reqix-dev/reqix/discussions" }] },
     ],
   },
   changelog: {
@@ -440,7 +441,7 @@ const zhArticles: Record<ArticleId, Article> = {
     description: "记录用户可感知的新增能力、行为调整和重要修复。",
     updated: "当前发布通道：首次正式版准备中",
     sections: [
-      { title: "1.0.0 · 即将发布", items: ["DevTools 捕获 Fetch/XHR，支持详情查看、搜索筛选、单条与批量创建规则。", "统一的请求匹配、请求修改、Redirect、取消、响应 Mock、Header 修改和延迟处理链。", "Popup 提供插件开关、站点模式、命中规则、页面脚本和常用创建入口。", "页面脚本支持 URL 与生命周期匹配，并提供导入、导出与权限指引。", "配置导入导出、冲突提示、本地隐私说明与中英文界面。", "完整 Chrome 扩展 E2E 覆盖真实 dist Manifest V3 运行链路。"] },
+      { title: "1.0.0 · 即将发布", items: ["DevTools 捕获 Fetch/XHR，支持详情查看、搜索筛选、单条与批量创建规则。", "统一的请求匹配、请求修改、Redirect、取消、响应 Mock、Header 修改和延迟处理链。", "Popup 提供插件开关、站点模式、命中规则、页面脚本和常用创建入口。", "首次开启请求接管前显著披露本地数据处理范围并要求明确确认。", "页面脚本支持 URL 与生命周期匹配，并提供导入、导出与权限指引。", "配置导入导出、冲突提示、本地隐私说明与中英文界面。", "完整 Chrome 与 Edge 扩展 E2E 覆盖真实 dist Manifest V3 运行链路。"] },
       { title: "发布原则", paragraphs: ["Reqix 尚未正式上线，因此 1.0 以前只维护清晰的当前数据模型和消息协议，不保留未发布内部版本的兼容分支。"] },
     ],
   },
@@ -448,7 +449,7 @@ const zhArticles: Record<ArticleId, Article> = {
     eyebrow: "获取 Reqix",
     title: "选择你的 Chromium 浏览器",
     description: "Reqix 正在准备首次商店发布。正式链接上线后，请仅通过官方商店页面安装。",
-    updated: "支持 Chrome 121+ 与 Edge 121+",
+    updated: "支持 Chrome 138+ 与 Edge 138+",
     sections: [
       { title: "Chrome Web Store", paragraphs: ["商店页面正在准备中。审核通过后，这里会提供正式安装按钮；不会使用来源不明的分发包。"], note: "发布准备中" },
       { title: "Microsoft Edge Add-ons", paragraphs: ["Edge 使用相同的 Chromium Manifest V3 实现。Edge 商店链接会在 Chrome 首发流程稳定后补充。"], note: "计划跟进" },
@@ -532,7 +533,7 @@ const enArticles: Record<ArticleId, Article> = {
     sections: [
       { title: "1. Scope and purpose", paragraphs: ["This policy applies to the Reqix Chrome and Edge extension and the official Reqix website. The extension's single purpose is network request interception, API mocking, request debugging, and directly related page debugging."] },
       { title: "2. Data handled by the extension", items: ["Rules, groups, page scripts, and settings created or imported by the user.", "Captured Fetch/XHR URLs, methods, query, headers, request bodies, status codes, and response content.", "Rule-hit records, current-tab site, and runtime status.", "Data included by the user in import and export files."] },
-      { title: "3. How data is produced", paragraphs: ["Data comes from user configuration or import, and from requests made while Reqix is enabled on a target page. Snapshots exist only to help create, inspect, and verify rules in Popup, DevTools, and the console."] },
+      { title: "3. How data is produced", paragraphs: ["Data comes from user configuration or import, and from requests made while Reqix is enabled on a target page. Before request handling is enabled for the first time, Reqix prominently explains the data processed, its purpose, local storage, and available controls, and requires explicit confirmation. Only after confirmation does it process Fetch/XHR on enabled sites. Snapshots exist only to help create, inspect, and verify rules in Popup, DevTools, and the console."] },
       { title: "4. Local storage and retention", paragraphs: ["Rules, groups, settings, and page scripts remain in browser extension storage until deleted, extension data is cleared, or Reqix is uninstalled. Recent request snapshots and hit logs are automatically cleared after 24 hours."] },
       { title: "5. Transfer, sharing, and telemetry", paragraphs: ["Reqix has no account, cloud sync, advertising, or extension telemetry. It does not send rules, page scripts, captured requests, or responses to Reqix developer servers or third-party analytics. Visits to the official Reqix website may produce ordinary access logs under GitHub's policy because the site is hosted on GitHub Pages."] },
       { title: "6. Sensitive information", paragraphs: ["Snapshots and exports may contain authentication headers, cookies, business payloads, or response content. Review data before enabling, exporting, sharing, or importing, and import configuration only from trusted sources."] },
@@ -540,7 +541,7 @@ const enArticles: Record<ArticleId, Article> = {
       { title: "8. User controls and deletion", items: ["Disable or delete rules, groups, and page scripts.", "Clear recent requests, hit logs, or all extension data.", "Restrict site access or uninstall Reqix in browser extension settings.", "Exclude data before exporting."] },
       { title: "9. Children's privacy", paragraphs: ["Reqix is intended for software development and debugging, is not directed to children, and does not intentionally collect information to identify children."] },
       { title: "10. Policy changes", paragraphs: ["If data handling changes materially, this page will be updated and Reqix will provide any prominent in-product disclosure required by Chrome Web Store policy."] },
-      { title: "11. Contact and Limited Use", paragraphs: ["Official support contact details will be published on this page when Reqix launches. Reqix uses browser data only to provide or improve visible network-debugging features and complies with the Chrome Web Store User Data Policy, including Limited Use requirements."] },
+      { title: "11. Contact and Limited Use", paragraphs: ["For questions about this policy, permissions, or data handling, contact the maintainers through Reqix GitHub Discussions. Reqix uses browser data only to provide or improve visible network-debugging features and complies with the Chrome Web Store User Data Policy, including Limited Use requirements."], links: [{ label: "Open Reqix GitHub Discussions", href: "https://github.com/reqix-dev/reqix/discussions" }] },
     ],
   },
   changelog: {
@@ -549,7 +550,7 @@ const enArticles: Record<ArticleId, Article> = {
     description: "User-visible capabilities, behavior changes, and important fixes.",
     updated: "Release channel: preparing the first public version",
     sections: [
-      { title: "1.0.0 · Upcoming", items: ["Capture Fetch/XHR in DevTools with details, search, filtering, and single or batch rule creation.", "One pipeline for matching, request rewrites, redirects, cancellation, response mocks, header changes, and delays.", "A lightweight Popup for extension state, site mode, matched rules, page scripts, and common creation flows.", "URL- and lifecycle-aware page scripts with import, export, and permission guidance.", "Configuration transfer, conflict warnings, local privacy information, and Chinese/English UI.", "Real dist Manifest V3 Chrome E2E coverage for critical extension workflows."] },
+      { title: "1.0.0 · Upcoming", items: ["Capture Fetch/XHR in DevTools with details, search, filtering, and single or batch rule creation.", "One pipeline for matching, request rewrites, redirects, cancellation, response mocks, header changes, and delays.", "A lightweight Popup for extension state, site mode, matched rules, page scripts, and common creation flows.", "Prominent local-data disclosure and explicit confirmation before request handling is enabled for the first time.", "URL- and lifecycle-aware page scripts with import, export, and permission guidance.", "Configuration transfer, conflict warnings, local privacy information, and Chinese/English UI.", "Real dist Manifest V3 Chrome and Edge E2E coverage for critical extension workflows."] },
       { title: "Release principle", paragraphs: ["Because Reqix has not shipped publicly yet, pre-1.0 development maintains one clear current data model and protocol without compatibility branches for unreleased internal versions."] },
     ],
   },
@@ -557,7 +558,7 @@ const enArticles: Record<ArticleId, Article> = {
     eyebrow: "Get Reqix",
     title: "Choose your Chromium browser",
     description: "Reqix is preparing its first store release. Once live, install it only through the official store listings.",
-    updated: "Supports Chrome 121+ and Edge 121+",
+    updated: "Supports Chrome 138+ and Edge 138+",
     sections: [
       { title: "Chrome Web Store", paragraphs: ["The store listing is in preparation. This page will link to the verified listing after approval; Reqix will not distribute builds through untrusted mirrors."], note: "Preparing release" },
       { title: "Microsoft Edge Add-ons", paragraphs: ["Edge uses the same Chromium Manifest V3 implementation. Its store listing will follow after the Chrome release flow is stable."], note: "Planned" },

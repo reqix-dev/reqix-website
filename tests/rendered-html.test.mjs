@@ -15,7 +15,7 @@ test("静态导出中文产品首页", async () => {
   assert.match(html, /把真实请求/);
   assert.match(html, /DevTools/);
   assert.match(html, /本地优先/);
-  assert.match(html, /Chrome \/ Edge 121\+/);
+  assert.match(html, /Chrome \/ Edge 138\+/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|react-loading-skeleton/i);
 });
 
@@ -29,6 +29,8 @@ test("静态导出英文、文档和隐私路由", async () => {
   assert.match(english, /Turn real traffic/);
   assert.match(docs, /用 5 分钟创建第一条请求规则/);
   assert.match(privacy, /最近请求快照与命中日志超过 24 小时后自动清理/);
+  assert.match(privacy, /首次开启请求接管前/);
+  assert.match(privacy, /github\.com\/reqix-dev\/reqix\/discussions/);
   assert.match(privacy, /GitHub Pages/);
   assert.doesNotMatch(privacy, /reqix\.dev/);
 });
