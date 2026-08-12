@@ -27,7 +27,7 @@ test("静态导出英文、文档和隐私路由", async () => {
   ]);
 
   assert.match(english, /Turn real traffic/);
-  assert.match(docs, /用 5 分钟创建第一条请求规则/);
+  assert.match(docs, /用 1 分钟创建第一条请求规则/);
   assert.match(privacy, /最近请求快照与命中日志超过 24 小时后自动清理/);
   assert.match(privacy, /首次开启请求接管前/);
   assert.match(privacy, /github\.com\/reqix-dev\/reqix\/discussions/);

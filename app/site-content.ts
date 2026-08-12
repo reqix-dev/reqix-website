@@ -46,7 +46,7 @@ export const ui = {
       titleAccent: "变成可控规则。",
       intro:
         "在 DevTools 中捕获 Fetch/XHR，把请求、响应和匹配条件直接带入规则。Mock、改写、重定向与延迟，都在一个清晰的处理链里完成。",
-      primary: "5 分钟快速开始",
+      primary: "1 分钟快速开始",
       secondary: "了解权限",
       local: "本地优先",
       noAccount: "无需账号",
@@ -147,7 +147,7 @@ export const ui = {
       titleAccent: "rules you control.",
       intro:
         "Capture Fetch/XHR in DevTools and carry the request, response, and match conditions straight into a rule. Mock, rewrite, redirect, and delay in one explicit pipeline.",
-      primary: "5-minute quick start",
+      primary: "1-minute quick start",
       secondary: "Review permissions",
       local: "Local-first",
       noAccount: "No account",
@@ -258,7 +258,7 @@ export const articlePaths: Record<ArticleId, string> = {
 const zhArticles: Record<ArticleId, Article> = {
   "getting-started": {
     eyebrow: "快速开始",
-    title: "用 5 分钟创建第一条请求规则",
+    title: "用 1 分钟创建第一条请求规则",
     description:
       "从安装 Reqix 到捕获真实 Fetch/XHR，再到验证 Mock 是否命中，完整走一遍最短路径。",
     updated: "适用于 Reqix 1.0",
@@ -462,7 +462,7 @@ const zhArticles: Record<ArticleId, Article> = {
 const enArticles: Record<ArticleId, Article> = {
   "getting-started": {
     eyebrow: "Quick start",
-    title: "Create your first request rule in 5 minutes",
+    title: "Create your first request rule in 1 minute",
     description:
       "Install Reqix, capture a real Fetch/XHR request, and verify a mock through the shortest complete workflow.",
     updated: "For Reqix 1.0",
