@@ -1,8 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+const siteUrl = "https://reqix-dev.github.io/reqix-website";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://reqix.dev"),
+  metadataBase: new URL("https://reqix-dev.github.io/reqix-website/"),
   title: {
     default: "Reqix — Network interception & API mocking",
     template: "%s · Reqix",
@@ -10,9 +13,9 @@ export const metadata: Metadata = {
   description:
     "Capture Fetch/XHR in DevTools and turn real traffic into precise request interception and API mocking rules.",
   icons: {
-    icon: "/reqix-icon.png",
-    shortcut: "/reqix-icon.png",
-    apple: "/reqix-icon.png",
+    icon: `${basePath}/reqix-icon.png`,
+    shortcut: `${basePath}/reqix-icon.png`,
+    apple: `${basePath}/reqix-icon.png`,
   },
   alternates: {
     canonical: "/",
@@ -30,7 +33,7 @@ export const metadata: Metadata = {
     url: "/",
     images: [
       {
-        url: "/og.png",
+        url: `${siteUrl}/og.png`,
         width: 1792,
         height: 921,
         alt: "Reqix — Intercept. Rewrite. Mock.",
@@ -42,7 +45,7 @@ export const metadata: Metadata = {
     title: "Reqix — Intercept. Rewrite. Mock.",
     description:
       "Turn real Fetch/XHR traffic into precise interception and API mocking rules.",
-    images: ["/og.png"],
+    images: [`${siteUrl}/og.png`],
   },
 };
 

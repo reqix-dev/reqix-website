@@ -570,3 +570,13 @@ export function getArticle(locale: Locale, id: ArticleId): Article {
 export function localizePath(locale: Locale, path: string): string {
   return locale === "en" ? `/en${path === "/" ? "" : path}` : path;
 }
+
+/**
+ * 为 GitHub Pages 项目站点补齐仓库子路径。
+ * 本地开发时保持根路径，避免开发服务器出现多余前缀。
+ */
+export function publicPath(path: string): string {
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+  if (!path.startsWith("/")) return path;
+  return `${basePath}${path}` || "/";
+}

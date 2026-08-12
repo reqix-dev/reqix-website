@@ -57,6 +57,18 @@ button, input { font: inherit; }
 img { display: block; max-width: 100%; }
 ::selection { background: rgba(27, 157, 240, 0.32); color: var(--text); }
 
+.not-found-page {
+  min-height: 100vh;
+  display: grid;
+  place-content: center;
+  justify-items: start;
+  gap: 18px;
+  width: min(680px, calc(100% - 48px));
+  margin-inline: auto;
+}
+.not-found-page h1 { margin: 0; font-size: clamp(38px, 7vw, 72px); line-height: 1.05; }
+.not-found-page p { margin: 0; color: var(--text-soft); }
+
 .site-root { min-height: 100vh; overflow: hidden; }
 .shell { width: min(1180px, calc(100% - 48px)); margin-inline: auto; }
 .skip-link {

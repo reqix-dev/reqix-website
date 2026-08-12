@@ -1,9 +1,11 @@
 import type { ReactNode } from "react";
+import Image from "next/image";
 import {
   articleOrder,
   articlePaths,
   getArticle,
   localizePath,
+  publicPath,
   ui,
   type ArticleId,
   type Locale,
@@ -13,7 +15,14 @@ function ReqixLogo() {
   return (
     <span className="brand-lockup">
       <span className="brand-mark-wrap" aria-hidden="true">
-        <img src="/reqix-logo.png" alt="" className="brand-mark" />
+        <Image
+          src={publicPath("/reqix-logo.png")}
+          alt=""
+          width={29}
+          height={29}
+          className="brand-mark"
+          priority
+        />
       </span>
       <span className="brand-name">Reqix</span>
     </span>
@@ -27,10 +36,11 @@ function switchLocalePath(locale: Locale, currentPath: string): string {
 
 function SiteHeader({ locale, currentPath }: { locale: Locale; currentPath: string }) {
   const t = ui[locale].nav;
-  const home = localizePath(locale, "/");
-  const docs = localizePath(locale, "/docs");
-  const privacy = localizePath(locale, "/privacy");
-  const download = localizePath(locale, "/download");
+  const link = (path: string) => publicPath(localizePath(locale, path));
+  const home = link("/");
+  const docs = link("/docs");
+  const privacy = link("/privacy");
+  const download = link("/download");
 
   const nav = (
     <>
@@ -38,7 +48,7 @@ function SiteHeader({ locale, currentPath }: { locale: Locale; currentPath: stri
       <a href={`${home}#workflow`}>{t.workflow}</a>
       <a href={docs}>{t.docs}</a>
       <a href={privacy}>{t.privacy}</a>
-      <a href={localizePath(locale, "/changelog")}>{t.changelog}</a>
+      <a href={link("/changelog")}>{t.changelog}</a>
     </>
   );
 
@@ -52,7 +62,7 @@ function SiteHeader({ locale, currentPath }: { locale: Locale; currentPath: stri
           {nav}
         </nav>
         <div className="header-actions">
-          <a className="language-link" href={switchLocalePath(locale, currentPath)} hrefLang={locale === "zh" ? "en" : "zh-CN"}>
+          <a className="language-link" href={publicPath(switchLocalePath(locale, currentPath))} hrefLang={locale === "zh" ? "en" : "zh-CN"}>
             <span aria-hidden="true">◎</span>
             {locale === "zh" ? "EN" : "中文"}
           </a>
@@ -77,7 +87,7 @@ function SiteHeader({ locale, currentPath }: { locale: Locale; currentPath: stri
 
 function SiteFooter({ locale }: { locale: Locale }) {
   const t = ui[locale].footer;
-  const path = (value: string) => localizePath(locale, value);
+  const path = (value: string) => publicPath(localizePath(locale, value));
   return (
     <footer className="site-footer">
       <div className="shell footer-grid">
@@ -190,10 +200,11 @@ function ProductPreview({ locale }: { locale: Locale }) {
 
 export function HomePage({ locale }: { locale: Locale }) {
   const t = ui[locale].home;
+  const link = (path: string) => publicPath(localizePath(locale, path));
   const homePath = localizePath(locale, "/");
-  const docsPath = localizePath(locale, "/docs");
-  const devtoolsPath = localizePath(locale, "/docs/devtools");
-  const privacyPath = localizePath(locale, "/permissions");
+  const docsPath = link("/docs");
+  const devtoolsPath = link("/docs/devtools");
+  const privacyPath = link("/permissions");
 
   return (
     <SiteShell locale={locale} currentPath={homePath}>
@@ -246,7 +257,7 @@ export function HomePage({ locale }: { locale: Locale }) {
             <p className="section-kicker">{t.pipelineKicker}</p>
             <h2>{t.pipelineTitle}</h2>
             <p>{t.pipelineIntro}</p>
-            <a className="text-link" href={localizePath(locale, "/docs/rules")}>{ui[locale].footer.rules}<span aria-hidden="true">→</span></a>
+            <a className="text-link" href={link("/docs/rules")}>{ui[locale].footer.rules}<span aria-hidden="true">→</span></a>
           </div>
           <div className="pipeline-list">
             {t.pipeline.map((item, index) => (
@@ -314,6 +325,7 @@ export function ArticlePage({ locale, id }: { locale: Locale; id: ArticleId }) {
   const previous = currentIndex > 0 ? articleOrder[currentIndex - 1] : null;
   const next = currentIndex < articleOrder.length - 1 ? articleOrder[currentIndex + 1] : null;
   const t = ui[locale].article;
+  const link = (path: string) => publicPath(localizePath(locale, path));
 
   return (
     <SiteShell locale={locale} currentPath={currentPath}>
@@ -321,9 +333,9 @@ export function ArticlePage({ locale, id }: { locale: Locale; id: ArticleId }) {
         <aside className="docs-sidebar">
           <div className="sidebar-label">{t.menu}</div>
           <nav aria-label={t.menu}>
-            {articleOrder.slice(0, 4).map((item) => <a key={item} className={item === id ? "active" : ""} href={localizePath(locale, articlePaths[item])}>{articleLabel(locale, item)}</a>)}
+            {articleOrder.slice(0, 4).map((item) => <a key={item} className={item === id ? "active" : ""} href={link(articlePaths[item])}>{articleLabel(locale, item)}</a>)}
             <div className="sidebar-label sidebar-group">{locale === "zh" ? "信任与发布" : "Trust & release"}</div>
-            {articleOrder.slice(4).map((item) => <a key={item} className={item === id ? "active" : ""} href={localizePath(locale, articlePaths[item])}>{articleLabel(locale, item)}</a>)}
+            {articleOrder.slice(4).map((item) => <a key={item} className={item === id ? "active" : ""} href={link(articlePaths[item])}>{articleLabel(locale, item)}</a>)}
           </nav>
         </aside>
 
@@ -348,8 +360,8 @@ export function ArticlePage({ locale, id }: { locale: Locale; id: ArticleId }) {
           </div>
           <footer className="article-footer">
             <div className="article-pager">
-              {previous ? <a href={localizePath(locale, articlePaths[previous])}><span>← {t.previous}</span><strong>{articleLabel(locale, previous)}</strong></a> : <span></span>}
-              {next ? <a className="next" href={localizePath(locale, articlePaths[next])}><span>{t.next} →</span><strong>{articleLabel(locale, next)}</strong></a> : <span></span>}
+              {previous ? <a href={link(articlePaths[previous])}><span>← {t.previous}</span><strong>{articleLabel(locale, previous)}</strong></a> : <span></span>}
+              {next ? <a className="next" href={link(articlePaths[next])}><span>{t.next} →</span><strong>{articleLabel(locale, next)}</strong></a> : <span></span>}
             </div>
           </footer>
         </article>
