@@ -65,15 +65,15 @@ function SiteHeader({ locale, currentPath }: { locale: Locale; currentPath: stri
         </nav>
         <div className="header-actions">
           <a className="language-link" href={publicPath(switchLocalePath(locale, currentPath))} hrefLang={locale === "zh" ? "en" : "zh-CN"}>
-            <span aria-hidden="true">◎</span>
-            {locale === "zh" ? "EN" : "中文"}
+            <span className="language-icon" aria-hidden="true">◎</span>
+            <span lang={locale === "zh" ? "en" : "zh-CN"}>{locale === "zh" ? "EN" : "中文"}</span>
           </a>
           <a className="button button-small button-primary desktop-download" href={download}>
             <span aria-hidden="true">↓</span>
             {t.download}
           </a>
           <details className="mobile-menu">
-            <summary aria-label={t.menu}>
+            <summary aria-label={locale === "zh" ? "导航菜单" : "Navigation menu"}>
               <span></span><span></span>
             </summary>
             <nav aria-label={locale === "zh" ? "移动端导航" : "Mobile navigation"}>
@@ -154,7 +154,15 @@ function ProductPreview({ locale }: { locale: Locale }) {
     ["PATCH", "/api/profile", "204", "74 ms"],
   ];
   return (
-    <div className="product-preview" aria-label={locale === "zh" ? "Reqix DevTools 产品界面示意" : "Reqix DevTools product preview"}>
+    <div
+      className="product-preview"
+      role="img"
+      aria-label={
+        locale === "zh"
+          ? "Reqix DevTools 界面示意：查看真实请求、匹配规则与规则处理预览。"
+          : "Reqix DevTools preview showing real requests, matched rules, and rule-processing previews."
+      }
+    >
       <div className="preview-window-bar">
         <div className="window-dots" aria-hidden="true"><i></i><i></i><i></i></div>
         <span>{t.previewKicker}</span>
@@ -162,7 +170,7 @@ function ProductPreview({ locale }: { locale: Locale }) {
       </div>
       <div className="preview-toolbar">
         <div className="preview-search"><span aria-hidden="true">⌕</span>{t.previewSearch}</div>
-        <button type="button" tabIndex={-1}><span aria-hidden="true">＋</span>{t.previewCreate}</button>
+        <span className="preview-create"><span aria-hidden="true">＋</span>{t.previewCreate}</span>
       </div>
       <div className="preview-body">
         <div className="request-pane">
@@ -180,7 +188,7 @@ function ProductPreview({ locale }: { locale: Locale }) {
         <div className="detail-pane">
           <div className="pane-title"><span>{t.previewDetail}</span><b>JSON</b></div>
           <div className="matched-rule"><span aria-hidden="true">↳</span>{t.previewRule}</div>
-          <div className="detail-tabs"><span className="active">Response</span><span>Headers</span><span>Timing</span></div>
+          <div className="detail-tabs"><span>Headers</span><span>Payload</span><span className="active">Response</span></div>
           <pre aria-hidden="true"><code>{`{
   "id": "usr_2841",
   "name": "Ada Chen",
@@ -285,7 +293,7 @@ export function HomePage({ locale }: { locale: Locale }) {
           <div className="local-stats" aria-label={locale === "zh" ? "隐私摘要" : "Privacy summary"}>
             <div><strong>0</strong><span>{locale === "zh" ? "云端账号" : "cloud accounts"}</span></div>
             <div><strong>0</strong><span>{locale === "zh" ? "遥测 SDK" : "telemetry SDKs"}</span></div>
-            <div><strong>24h</strong><span>{locale === "zh" ? "临时记录保留" : "temporary retention"}</span></div>
+            <div><strong>24h</strong><span>{locale === "zh" ? "临时记录清理阈值" : "cleanup threshold"}</span></div>
           </div>
         </div>
       </section>
@@ -335,9 +343,9 @@ export function ArticlePage({ locale, id }: { locale: Locale; id: ArticleId }) {
         <aside className="docs-sidebar">
           <div className="sidebar-label">{t.menu}</div>
           <nav aria-label={t.menu}>
-            {articleOrder.slice(0, 4).map((item) => <a key={item} className={item === id ? "active" : ""} href={link(articlePaths[item])}>{articleLabel(locale, item)}</a>)}
+            {articleOrder.slice(0, 4).map((item) => <a key={item} className={item === id ? "active" : ""} aria-current={item === id ? "page" : undefined} href={link(articlePaths[item])}>{articleLabel(locale, item)}</a>)}
             <div className="sidebar-label sidebar-group">{locale === "zh" ? "信任与发布" : "Trust & release"}</div>
-            {articleOrder.slice(4).map((item) => <a key={item} className={item === id ? "active" : ""} href={link(articlePaths[item])}>{articleLabel(locale, item)}</a>)}
+            {articleOrder.slice(4).map((item) => <a key={item} className={item === id ? "active" : ""} aria-current={item === id ? "page" : undefined} href={link(articlePaths[item])}>{articleLabel(locale, item)}</a>)}
           </nav>
         </aside>
 

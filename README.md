@@ -17,6 +17,8 @@ npm run dev
 ```bash
 npm run build
 npm test
+npm run lint
+npm run verify:lockfile
 ```
 
 `npm run build` 生成根路径版本，`npm run build:pages` 生成带 `/reqix-website` 前缀的 GitHub Pages 版本。

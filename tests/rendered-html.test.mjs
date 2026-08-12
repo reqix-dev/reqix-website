@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
-import { access, readFile } from "node:fs/promises";
+import { access, readdir, readFile } from "node:fs/promises";
+import path from "node:path";
 import test from "node:test";
 
 const root = new URL("../", import.meta.url);
@@ -7,6 +8,53 @@ const root = new URL("../", import.meta.url);
 async function readRoute(pathname = "/") {
   const relativePath = pathname === "/" ? "index.html" : `${pathname.replace(/^\//, "")}/index.html`;
   return readFile(new URL(`../out/${relativePath}`, import.meta.url), "utf8");
+}
+
+const publishedOrigin = "https://reqix-dev.github.io/reqix-website";
+
+const localizedRoutes = [
+  ["/", "/en"],
+  ["/docs", "/en/docs"],
+  ["/docs/devtools", "/en/docs/devtools"],
+  ["/docs/rules", "/en/docs/rules"],
+  ["/docs/page-scripts", "/en/docs/page-scripts"],
+  ["/permissions", "/en/permissions"],
+  ["/privacy", "/en/privacy"],
+  ["/changelog", "/en/changelog"],
+  ["/download", "/en/download"],
+];
+
+function publishedUrl(pathname) {
+  return pathname === "/" ? `${publishedOrigin}/` : `${publishedOrigin}${pathname}/`;
+}
+
+async function exportedHtmlFiles(directory = new URL("../out/", import.meta.url)) {
+  const entries = await readdir(directory, { withFileTypes: true });
+  const nested = await Promise.all(entries.map(async (entry) => {
+    const url = new URL(`${entry.name}${entry.isDirectory() ? "/" : ""}`, directory);
+    if (entry.isDirectory()) return exportedHtmlFiles(url);
+    return entry.name.endsWith(".html") ? [url] : [];
+  }));
+  return nested.flat();
+}
+
+function resolveExportedTarget(sourceFile, rawHref) {
+  const href = rawHref.split("#")[0].split("?")[0];
+  if (!href || href.startsWith("https://") || href.startsWith("http://") || href.startsWith("mailto:")) return null;
+
+  const withoutBasePath = href.startsWith("/reqix-website")
+    ? href.slice("/reqix-website".length) || "/"
+    : href;
+  if (withoutBasePath.startsWith("/")) {
+    if (path.extname(withoutBasePath)) {
+      return new URL(`../out/${withoutBasePath.replace(/^\//, "")}`, import.meta.url);
+    }
+    return withoutBasePath === "/"
+      ? new URL("../out/index.html", import.meta.url)
+      : new URL(`../out/${withoutBasePath.replace(/^\//, "").replace(/\/$/, "")}/index.html`, import.meta.url);
+  }
+
+  return new URL(path.join(path.dirname(sourceFile.pathname), withoutBasePath), "file://");
 }
 
 test("静态导出中文产品首页", async () => {
@@ -20,16 +68,26 @@ test("静态导出中文产品首页", async () => {
 });
 
 test("静态导出英文、文档和隐私路由", async () => {
-  const [english, docs, privacy] = await Promise.all([
+  const [english, docs, privacy, englishPrivacy] = await Promise.all([
     readRoute("/en"),
     readRoute("/docs"),
     readRoute("/privacy"),
+    readRoute("/en/privacy"),
   ]);
 
   assert.match(english, /Turn real traffic/);
-  assert.match(docs, /用 1 分钟创建第一条请求规则/);
-  assert.match(privacy, /最近请求快照与命中日志超过 24 小时后自动清理/);
-  assert.match(privacy, /首次开启请求接管前/);
+  assert.match(docs, /安装后，约 1 分钟创建第一条请求规则/);
+  assert.match(privacy, /快照和按日命中日志超过 24 小时后/);
+  assert.match(privacy, /首次开启某个网站或全站请求接管前/);
+  assert.match(privacy, /主动打开 Reqix DevTools 面板/);
+  assert.doesNotMatch(privacy, /清理最近请求、命中日志或全部扩展数据/);
+  assert.doesNotMatch(privacy, /浏览器清除扩展数据/);
+  assert.match(privacy, /限制 Reqix 的站点访问权限；这不会删除已经保存的本地数据/);
+  assert.match(privacy, /二进制响应正文不保存/);
+  assert.doesNotMatch(privacy, /二进制正文不保存/);
+  assert.match(privacy, /页面脚本和动态响应代码也可能/);
+  assert.match(englishPrivacy, /dynamic response code may also initiate network access/);
+  assert.doesNotMatch(englishPrivacy, /browser clears extension data/);
   assert.match(privacy, /github\.com\/reqix-dev\/reqix\/discussions/);
   assert.match(privacy, /GitHub Pages/);
   assert.doesNotMatch(privacy, /reqix\.dev/);
@@ -60,15 +118,86 @@ test("GitHub Pages 构建使用仓库子路径", async () => {
   assert.match(html, /https:\/\/reqix-dev\.github\.io\/reqix-website\/og\.png/);
 });
 
+test("静态导出中的站内页面链接和锚点均有目标", async () => {
+  const files = await exportedHtmlFiles();
+
+  for (const file of files) {
+    const html = await readFile(file, "utf8");
+    const ids = new Set([...html.matchAll(/\sid="([^"]+)"/g)].map((match) => match[1]));
+    const hrefs = [...html.matchAll(/\shref="([^"]+)"/g)].map((match) => match[1]);
+
+    for (const href of hrefs) {
+      if (href.startsWith("#")) {
+        assert.ok(ids.has(href.slice(1)), `${file.pathname} 缺少锚点 ${href}`);
+        continue;
+      }
+      const target = resolveExportedTarget(file, href);
+      if (target) await access(target);
+    }
+  }
+});
+
+test("所有内容页提供独立 canonical、hreflang 与分享地址", async () => {
+  const titles = new Set();
+
+  for (const [zhRoute, enRoute] of localizedRoutes) {
+    const zhUrl = publishedUrl(zhRoute);
+    const enUrl = publishedUrl(enRoute);
+
+    for (const [route, lang, canonical] of [
+      [zhRoute, "zh-CN", zhUrl],
+      [enRoute, "en", enUrl],
+    ]) {
+      const html = await readRoute(route);
+      const title = html.match(/<title>(.*?)<\/title>/)?.[1];
+
+      assert.match(html, new RegExp(`<html lang="${lang}"`));
+      assert.match(html, new RegExp(`<link rel="canonical" href="${canonical}"`));
+      assert.match(html, new RegExp(`<link rel="alternate" hrefLang="zh-CN" href="${zhUrl}"`));
+      assert.match(html, new RegExp(`<link rel="alternate" hrefLang="en" href="${enUrl}"`));
+      assert.match(html, new RegExp(`<link rel="alternate" hrefLang="x-default" href="${zhUrl}"`));
+      assert.match(html, new RegExp(`<meta property="og:url" content="${canonical}"`));
+      assert.match(html, /<meta property="og:image:width" content="1731"/);
+      assert.match(html, /<meta property="og:image:height" content="909"/);
+      assert.ok(title, `${route} 应具有标题`);
+      assert.equal(titles.has(title), false, `${route} 不应与其它页面共用标题`);
+      titles.add(title);
+    }
+  }
+
+  assert.equal(titles.size, localizedRoutes.length * 2);
+});
+
+test("站点地图包含全部中英文正式路由", async () => {
+  const sitemap = await readFile(new URL("../out/sitemap.xml", import.meta.url), "utf8");
+
+  for (const pair of localizedRoutes) {
+    for (const route of pair) {
+      assert.match(sitemap, new RegExp(`<loc>${publishedUrl(route)}</loc>`));
+    }
+  }
+
+  assert.equal((sitemap.match(/<url>/g) || []).length, localizedRoutes.length * 2);
+  assert.match(sitemap, /hreflang="x-default"/);
+});
+
+test("404 页面使用自定义双语提示并禁止索引", async () => {
+  const html = await readFile(new URL("../out/404.html", import.meta.url), "utf8");
+  assert.match(html, /<html[^>]+lang="zh-CN"/);
+  assert.match(html, /没有找到这个页面/);
+  assert.match(html, /Page not found/);
+  assert.match(html, /<meta name="robots" content="noindex, nofollow"/);
+});
+
 test("removes all disposable preview infrastructure", async () => {
   const [page, layout, packageJson] = await Promise.all([
-    readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
-    readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/(zh)/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/(zh)/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../package.json", import.meta.url), "utf8"),
   ]);
 
   assert.match(page, /HomePage/);
-  assert.match(layout, /reqix-dev\.github\.io\/reqix-website/);
+  assert.match(layout, /createRootMetadata/);
   assert.doesNotMatch(page, /codex-preview|SkeletonPreview/);
   assert.doesNotMatch(layout, /Starter Project|codex-preview/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
