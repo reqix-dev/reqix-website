@@ -9,8 +9,6 @@ import {
   type Locale,
 } from "./site-content";
 
-const GITHUB_URL = "<private-product-repository>";
-
 function ReqixLogo() {
   return (
     <span className="brand-lockup">
@@ -40,9 +38,7 @@ function SiteHeader({ locale, currentPath }: { locale: Locale; currentPath: stri
       <a href={`${home}#workflow`}>{t.workflow}</a>
       <a href={docs}>{t.docs}</a>
       <a href={privacy}>{t.privacy}</a>
-      <a href={GITHUB_URL} target="_blank" rel="noreferrer">
-        {t.github} <span aria-hidden="true">↗</span>
-      </a>
+      <a href={localizePath(locale, "/changelog")}>{t.changelog}</a>
     </>
   );
 
@@ -101,13 +97,13 @@ function SiteFooter({ locale }: { locale: Locale }) {
           <h2>{t.resources}</h2>
           <a href={path("/changelog")}>{t.changelog}</a>
           <a href={path("/download")}>{ui[locale].nav.download}</a>
-          <a href={GITHUB_URL} target="_blank" rel="noreferrer">{t.source} ↗</a>
+          <a href={path("/download")}>{t.source}</a>
         </div>
         <div>
           <h2>{t.legal}</h2>
           <a href={path("/permissions")}>{t.permissions}</a>
           <a href={path("/privacy")}>{t.privacy}</a>
-          <a href="<private-product-repository>/discussions" target="_blank" rel="noreferrer">Discussions ↗</a>
+          <a href={path("/changelog")}>{t.changelog}</a>
         </div>
       </div>
       <div className="shell footer-bottom">
@@ -210,7 +206,7 @@ export function HomePage({ locale }: { locale: Locale }) {
             <p className="hero-intro">{t.intro}</p>
             <div className="hero-actions">
               <a className="button button-primary" href={docsPath}><span aria-hidden="true">→</span>{t.primary}</a>
-              <a className="button button-secondary" href={GITHUB_URL} target="_blank" rel="noreferrer"><span aria-hidden="true">⌘</span>{t.secondary}</a>
+              <a className="button button-secondary" href={privacyPath}><span aria-hidden="true">◎</span>{t.secondary}</a>
             </div>
             <div className="hero-facts">
               <span><i>✓</i>{t.local}</span>
@@ -351,7 +347,6 @@ export function ArticlePage({ locale, id }: { locale: Locale; id: ArticleId }) {
             ))}
           </div>
           <footer className="article-footer">
-            <a href={`${GITHUB_URL}/tree/main`} target="_blank" rel="noreferrer">{t.edit} ↗</a>
             <div className="article-pager">
               {previous ? <a href={localizePath(locale, articlePaths[previous])}><span>← {t.previous}</span><strong>{articleLabel(locale, previous)}</strong></a> : <span></span>}
               {next ? <a className="next" href={localizePath(locale, articlePaths[next])}><span>{t.next} →</span><strong>{articleLabel(locale, next)}</strong></a> : <span></span>}

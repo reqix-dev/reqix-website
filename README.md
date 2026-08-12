@@ -19,4 +19,4 @@ npm run build
 npm test
 ```
 
-网站源码位于 `app/`，部署配置位于 `.openai/hosting.json`。
+网站代码位于 `app/`，部署配置位于 `.openai/hosting.json`。
