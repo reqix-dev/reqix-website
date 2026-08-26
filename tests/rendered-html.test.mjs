@@ -93,6 +93,21 @@ test("静态导出英文、文档和隐私路由", async () => {
   assert.doesNotMatch(privacy, /reqix\.dev/);
 });
 
+test("中英文安装文档指向已发布的 Chrome Web Store 页面", async () => {
+  const storePath = "reqix-intercept-modify-mo/jglhpmlcngcdkkdfjphlgfgbdabckfji";
+  const [docs, englishDocs, download, englishDownload] = await Promise.all([
+    readRoute("/docs"),
+    readRoute("/en/docs"),
+    readRoute("/download"),
+    readRoute("/en/download"),
+  ]);
+
+  for (const html of [docs, englishDocs, download, englishDownload]) {
+    assert.match(html, new RegExp(storePath));
+    assert.doesNotMatch(html, /等待 Chrome Web Store|Wait for the official Chrome|商店页面正在准备|store listing is in preparation/i);
+  }
+});
+
 test("全站导航提供社区入口且页脚不再重复链接", async () => {
   const [html, siteSource] = await Promise.all([
     readRoute("/"),
