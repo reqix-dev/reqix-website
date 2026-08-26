@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
 import {
+  CHROME_WEB_STORE_URL,
   articleOrder,
   articlePaths,
   getArticle,
@@ -42,7 +43,6 @@ function SiteHeader({ locale, currentPath }: { locale: Locale; currentPath: stri
   const link = (path: string) => publicPath(localizePath(locale, path));
   const home = link("/");
   const docs = link("/docs");
-  const download = link("/download");
 
   const nav = (
     <>
@@ -68,7 +68,7 @@ function SiteHeader({ locale, currentPath }: { locale: Locale; currentPath: stri
             <span className="language-icon" aria-hidden="true">◎</span>
             <span lang={locale === "zh" ? "en" : "zh-CN"}>{locale === "zh" ? "EN" : "中文"}</span>
           </a>
-          <a className="button button-small button-primary desktop-download" href={download}>
+          <a className="button button-small button-primary desktop-download" href={CHROME_WEB_STORE_URL}>
             <span aria-hidden="true">↓</span>
             {t.download}
           </a>
@@ -78,7 +78,7 @@ function SiteHeader({ locale, currentPath }: { locale: Locale; currentPath: stri
             </summary>
             <nav aria-label={locale === "zh" ? "移动端导航" : "Mobile navigation"}>
               {nav}
-              <a className="mobile-download-link" href={download}>{t.download}</a>
+              <a className="mobile-download-link" href={CHROME_WEB_STORE_URL}>{t.download}</a>
             </nav>
           </details>
         </div>

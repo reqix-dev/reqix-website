@@ -124,6 +124,16 @@ test("全站导航提供社区入口且页脚不再重复链接", async () => {
   assert.doesNotMatch(footerSource, /t\.source/);
 });
 
+test("桌面端和移动端获取入口直接打开 Chrome Web Store", async () => {
+  const html = await readRoute("/");
+  const storeUrl = "https://chromewebstore.google.com/detail/reqix-intercept-modify-mo/jglhpmlcngcdkkdfjphlgfgbdabckfji";
+  const storeLinks = html.match(new RegExp(`href="${storeUrl}"`, "g")) || [];
+
+  assert.equal(storeLinks.length, 2);
+  assert.doesNotMatch(html, /class="[^"]*desktop-download[^"]*" href="\/reqix-website\/download"/);
+  assert.doesNotMatch(html, /class="mobile-download-link" href="\/reqix-website\/download"/);
+});
+
 test("GitHub Pages 构建使用仓库子路径", async () => {
   const html = await readRoute("/");
   assert.match(html, /\/reqix-website\/_next\/static\//);

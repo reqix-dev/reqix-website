@@ -1,6 +1,6 @@
 export type Locale = "zh" | "en";
 
-const CHROME_WEB_STORE_URL =
+export const CHROME_WEB_STORE_URL =
   "https://chromewebstore.google.com/detail/reqix-intercept-modify-mo/jglhpmlcngcdkkdfjphlgfgbdabckfji";
 
 export type ArticleId =
