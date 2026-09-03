@@ -93,8 +93,9 @@ test("静态导出英文、文档和隐私路由", async () => {
   assert.doesNotMatch(privacy, /reqix\.dev/);
 });
 
-test("中英文安装文档指向已发布的 Chrome Web Store 页面", async () => {
-  const storePath = "reqix-intercept-modify-mo/jglhpmlcngcdkkdfjphlgfgbdabckfji";
+test("中英文安装文档指向已发布的 Chrome 与 Edge 商店页面", async () => {
+  const chromeStorePath = "reqix-intercept-modify-mo/jglhpmlcngcdkkdfjphlgfgbdabckfji";
+  const edgeStorePath = "jaiphjpnbgpfgnikcpbpaceojfggdcii";
   const [docs, englishDocs, download, englishDownload] = await Promise.all([
     readRoute("/docs"),
     readRoute("/en/docs"),
@@ -103,8 +104,14 @@ test("中英文安装文档指向已发布的 Chrome Web Store 页面", async ()
   ]);
 
   for (const html of [docs, englishDocs, download, englishDownload]) {
-    assert.match(html, new RegExp(storePath));
-    assert.doesNotMatch(html, /等待 Chrome Web Store|Wait for the official Chrome|商店页面正在准备|store listing is in preparation/i);
+    assert.match(html, new RegExp(chromeStorePath));
+    assert.match(html, new RegExp(edgeStorePath));
+    assert.doesNotMatch(html, /等待 Chrome Web Store|Wait for the official Chrome|商店页面正在准备|store listing is in preparation|计划跟进|Planned|尚未提供|not yet available/i);
+  }
+
+  for (const html of [download, englishDownload]) {
+    assert.equal((html.match(/class="button button-primary article-download-link"/g) || []).length, 2);
+    assert.doesNotMatch(html, /class="article-note"/);
   }
 });
 
@@ -124,14 +131,14 @@ test("全站导航提供社区入口且页脚不再重复链接", async () => {
   assert.doesNotMatch(footerSource, /t\.source/);
 });
 
-test("桌面端和移动端获取入口直接打开 Chrome Web Store", async () => {
+test("桌面端和移动端获取入口打开浏览器下载选择页", async () => {
   const html = await readRoute("/");
-  const storeUrl = "https://chromewebstore.google.com/detail/reqix-intercept-modify-mo/jglhpmlcngcdkkdfjphlgfgbdabckfji";
-  const storeLinks = html.match(new RegExp(`href="${storeUrl}"`, "g")) || [];
+  const downloadUrl = "/reqix-website/download";
+  const downloadLinks = html.match(new RegExp(`href="${downloadUrl}"`, "g")) || [];
 
-  assert.equal(storeLinks.length, 2);
-  assert.doesNotMatch(html, /class="[^"]*desktop-download[^"]*" href="\/reqix-website\/download"/);
-  assert.doesNotMatch(html, /class="mobile-download-link" href="\/reqix-website\/download"/);
+  assert.equal(downloadLinks.length, 3);
+  assert.match(html, /class="[^"]*desktop-download[^"]*" href="\/reqix-website\/download"/);
+  assert.match(html, /class="mobile-download-link" href="\/reqix-website\/download"/);
 });
 
 test("GitHub Pages 构建使用仓库子路径", async () => {

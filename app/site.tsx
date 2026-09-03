@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
 import {
-  CHROME_WEB_STORE_URL,
   articleOrder,
   articlePaths,
   getArticle,
@@ -68,7 +67,7 @@ function SiteHeader({ locale, currentPath }: { locale: Locale; currentPath: stri
             <span className="language-icon" aria-hidden="true">◎</span>
             <span lang={locale === "zh" ? "en" : "zh-CN"}>{locale === "zh" ? "EN" : "中文"}</span>
           </a>
-          <a className="button button-small button-primary desktop-download" href={CHROME_WEB_STORE_URL}>
+          <a className="button button-small button-primary desktop-download" href={link("/download")}>
             <span aria-hidden="true">↓</span>
             {t.download}
           </a>
@@ -78,7 +77,7 @@ function SiteHeader({ locale, currentPath }: { locale: Locale; currentPath: stri
             </summary>
             <nav aria-label={locale === "zh" ? "移动端导航" : "Mobile navigation"}>
               {nav}
-              <a className="mobile-download-link" href={CHROME_WEB_STORE_URL}>{t.download}</a>
+              <a className="mobile-download-link" href={link("/download")}>{t.download}</a>
             </nav>
           </details>
         </div>
@@ -361,7 +360,7 @@ export function ArticlePage({ locale, id }: { locale: Locale; id: ArticleId }) {
               <section key={section.title} id={`section-${sectionIndex + 1}`}>
                 <h2>{section.title}</h2>
                 {section.paragraphs?.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-                {section.links?.map((item) => <p key={item.href}><a className="text-link" href={item.href}>{item.label}<span aria-hidden="true">→</span></a></p>)}
+                {section.links?.map((item) => <p className={id === "download" ? "article-download-action" : undefined} key={item.href}><a className={id === "download" ? "button button-primary article-download-link" : "text-link"} href={item.href}>{item.label}<span aria-hidden="true">→</span></a></p>)}
                 {section.steps && <ol className="article-steps">{section.steps.map((step) => <li key={step.title}><span>{String(section.steps!.indexOf(step) + 1).padStart(2, "0")}</span><div><h3>{step.title}</h3><p>{step.body}</p></div></li>)}</ol>}
                 {section.items && <ul>{section.items.map((item) => <li key={item}>{item}</li>)}</ul>}
                 {section.code && <div className="code-block"><div className="code-bar"><span></span><span></span><span></span><b>{locale === "zh" ? "终端 / 示例" : "Terminal / example"}</b></div><pre><code>{section.code}</code></pre></div>}

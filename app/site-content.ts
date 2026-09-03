@@ -2,6 +2,8 @@ export type Locale = "zh" | "en";
 
 export const CHROME_WEB_STORE_URL =
   "https://chromewebstore.google.com/detail/reqix-intercept-modify-mo/jglhpmlcngcdkkdfjphlgfgbdabckfji";
+export const EDGE_ADDONS_URL =
+  "https://microsoftedge.microsoft.com/addons/detail/reqix%EF%BC%9A%E6%8B%A6%E6%88%AA%E3%80%81%E4%BF%AE%E6%94%B9%E4%B8%8E-mock-http-%E8%AF%B7%E6%B1%82/jaiphjpnbgpfgnikcpbpaceojfggdcii";
 
 export type ArticleId =
   | "getting-started"
@@ -269,12 +271,15 @@ const zhArticles: Record<ArticleId, Article> = {
       {
         title: "安装 Reqix",
         paragraphs: [
-          "Reqix 已在 Chrome Web Store 正式发布。Chrome 用户可以通过官方商店页面直接安装；Edge 商店版本将在后续提供。",
+          "Reqix 已在 Chrome Web Store 和 Microsoft Edge Add-ons 正式发布，请根据当前浏览器选择对应的官方商店安装。",
         ],
-        links: [{ label: "前往 Chrome Web Store 安装 Reqix", href: CHROME_WEB_STORE_URL }],
+        links: [
+          { label: "前往 Chrome Web Store 安装 Reqix", href: CHROME_WEB_STORE_URL },
+          { label: "前往 Microsoft Edge Add-ons 安装 Reqix", href: EDGE_ADDONS_URL },
+        ],
         items: [
           "Google Chrome 138 及以上版本可通过官方商店安装。",
-          "Edge 版本将在 Chrome 首发流程稳定后跟进。",
+          "Microsoft Edge 138 及以上版本可通过官方商店安装。",
           "不要从非官方镜像下载或安装 Reqix。",
         ],
       },
@@ -457,21 +462,21 @@ const zhArticles: Record<ArticleId, Article> = {
     eyebrow: "更新记录",
     title: "Reqix 的变化，保持透明",
     description: "记录用户可感知的新增能力、行为调整和重要修复。",
-    updated: "当前发布通道：Chrome Web Store",
+    updated: "当前发布通道：Chrome Web Store · Microsoft Edge Add-ons",
     sections: [
-      { title: "1.0.0 · 已发布", items: ["DevTools 查看 Fetch/XHR 详情，并按 URL、路径或名称搜索，支持单条与批量创建规则。", "统一的请求匹配、请求修改、Redirect、取消、响应 Mock、Header 修改和延迟处理链。", "Popup 提供网站或全站开关、命中规则、页面脚本、快捷创建和请求录制入口。", "首次开启请求接管前披露本地数据处理范围并要求明确确认。", "页面脚本支持 URL、生命周期和运行环境设置，并提供导入、导出与权限指引。", "配置导入导出、匹配冲突提示、本地隐私说明与中英文界面。"], links: [{ label: "在 Chrome Web Store 查看 Reqix", href: CHROME_WEB_STORE_URL }] },
+      { title: "1.0.0 · 已发布", items: ["DevTools 查看 Fetch/XHR 详情，并按 URL、路径或名称搜索，支持单条与批量创建规则。", "统一的请求匹配、请求修改、Redirect、取消、响应 Mock、Header 修改和延迟处理链。", "Popup 提供网站或全站开关、命中规则、页面脚本、快捷创建和请求录制入口。", "首次开启请求接管前披露本地数据处理范围并要求明确确认。", "页面脚本支持 URL、生命周期和运行环境设置，并提供导入、导出与权限指引。", "配置导入导出、匹配冲突提示、本地隐私说明与中英文界面。"], links: [{ label: "在 Chrome Web Store 查看 Reqix", href: CHROME_WEB_STORE_URL }, { label: "在 Microsoft Edge Add-ons 查看 Reqix", href: EDGE_ADDONS_URL }] },
       { title: "发布原则", paragraphs: ["Reqix 已公开发布。后续涉及规则格式、存储结构或消息协议的调整，会同步评估已发布配置的兼容性和升级路径。"] },
     ],
   },
   download: {
     eyebrow: "获取 Reqix",
     title: "选择你的 Chromium 浏览器",
-    description: "Reqix 已在 Chrome Web Store 正式发布。请通过官方商店页面安装，避免来源不明的分发包。",
+    description: "Reqix 已在 Chrome Web Store 和 Microsoft Edge Add-ons 正式发布。请选择当前浏览器对应的官方商店安装。",
     updated: "支持 Chrome 138+ 与 Edge 138+",
     sections: [
-      { title: "Chrome Web Store", paragraphs: ["Chrome 版本已正式发布，可通过下方官方商店页面安装并接收后续更新。"], links: [{ label: "前往 Chrome Web Store 安装 Reqix", href: CHROME_WEB_STORE_URL }], note: "已发布" },
-      { title: "Microsoft Edge Add-ons", paragraphs: ["Edge 使用相同的 Chromium Manifest V3 实现。Edge 商店链接会在 Chrome 首发流程稳定后补充。"], note: "计划跟进" },
-      { title: "安装安全", items: ["只使用本页公布的 Chrome Web Store 或 Microsoft Edge Add-ons 正式链接。", "不要从第三方镜像、网盘或非官方安装包获取 Reqix。", "目前公开安装入口为上方 Chrome Web Store 页面；Edge 商店链接尚未提供。"] },
+      { title: "Chrome Web Store", paragraphs: ["使用 Google Chrome 时，通过 Chrome Web Store 安装 Reqix，并自动接收后续版本更新。"], links: [{ label: "在 Chrome Web Store 下载 Reqix", href: CHROME_WEB_STORE_URL }] },
+      { title: "Microsoft Edge Add-ons", paragraphs: ["使用 Microsoft Edge 时，通过 Edge 扩展商店安装 Reqix，并自动接收后续版本更新。"], links: [{ label: "在 Microsoft Edge Add-ons 下载 Reqix", href: EDGE_ADDONS_URL }] },
+      { title: "安装安全", items: ["只使用本页公布的 Chrome Web Store 或 Microsoft Edge Add-ons 正式链接。", "不要从第三方镜像、网盘或非官方安装包获取 Reqix。", "根据当前浏览器选择对应商店，避免安装来源不明或未经验证的版本。"] },
       { title: "平台范围", paragraphs: ["Reqix 只对现代 Google Chrome 与 Microsoft Edge 提供正式兼容保证。Firefox、Safari、Brave、Opera 及其它浏览器当前不在支持范围内。"] },
     ],
   },
@@ -485,7 +490,7 @@ const enArticles: Record<ArticleId, Article> = {
       "Once Reqix is installed, create a disabled draft from a real Fetch/XHR request, then enable and verify it.",
     updated: "For Reqix 1.0",
     sections: [
-      { title: "Install Reqix", paragraphs: ["Reqix is now available on the Chrome Web Store. Chrome users can install it from the official listing; the Edge store version will follow."], links: [{ label: "Install Reqix from the Chrome Web Store", href: CHROME_WEB_STORE_URL }], items: ["Google Chrome 138 or newer can install Reqix from the official store.", "The Edge release will follow after the Chrome launch flow is stable.", "Do not install Reqix from unofficial mirrors or packages."] },
+      { title: "Install Reqix", paragraphs: ["Reqix is officially available on the Chrome Web Store and Microsoft Edge Add-ons. Choose the official store for your current browser."], links: [{ label: "Install Reqix from the Chrome Web Store", href: CHROME_WEB_STORE_URL }, { label: "Install Reqix from Microsoft Edge Add-ons", href: EDGE_ADDONS_URL }], items: ["Google Chrome 138 or newer can install Reqix from the official store.", "Microsoft Edge 138 or newer can install Reqix from the official store.", "Do not install Reqix from unofficial mirrors or packages."] },
       { title: "Open the DevTools panel", steps: [{ title: "Open the target page", body: "Navigate to the application you want to integrate or mock." }, { title: "Open Reqix first", body: "Open browser DevTools and select the Reqix panel." }, { title: "Trigger the request again", body: "Reload the page or repeat the action so the panel can display newly completed Fetch/XHR." }], note: "Reqix currently shows Fetch/XHR only. Open the panel before reloading or triggering the request." },
       { title: "Create a rule from real traffic", paragraphs: ["Select a request and choose mock, request rewrite, redirect, cancel, or delay. Reqix pre-fills the request data that applies to the selected scenario; review every generated match condition and action before saving."], items: ["Single-create opens the rule editor for immediate review.", "Batch-created rules are disabled drafts by default.", "A request that already matched a rule links directly to that rule instead."] },
       { title: "Save, enable, and verify", steps: [{ title: "Review match scope", body: "Check the URL, method, and page scope." }, { title: "Configure actions", body: "Enable only the request, route, and response stages you need." }, { title: "Enable the rule", body: "Enable interception for the current site or all sites and enable the rule. If it is inside a group, every group in its path must also be enabled." }, { title: "Request again", body: "Return to the page and check the actual hit in Popup, or inspect the rule-match preview in DevTools." }] },
@@ -568,21 +573,21 @@ const enArticles: Record<ArticleId, Article> = {
     eyebrow: "Changelog",
     title: "Reqix changes, recorded clearly",
     description: "User-visible capabilities, behavior changes, and important fixes.",
-    updated: "Release channel: Chrome Web Store",
+    updated: "Release channels: Chrome Web Store · Microsoft Edge Add-ons",
     sections: [
-      { title: "1.0.0 · Released", items: ["Inspect Fetch/XHR details in DevTools, search by URL, path, or name, and create one rule or a batch.", "One pipeline for matching, request rewrites, redirects, cancellation, response mocks, header changes, and delays.", "A lightweight Popup for per-site or all-site state, matched rules, page scripts, quick creation, and request recording.", "Local-data disclosure and explicit confirmation before request interception is enabled for the first time.", "Page scripts with URL, lifecycle, and execution-world settings plus import, export, and permission guidance.", "Configuration import and export, match-conflict warnings, local privacy information, and Chinese/English UI."], links: [{ label: "View Reqix on the Chrome Web Store", href: CHROME_WEB_STORE_URL }] },
+      { title: "1.0.0 · Released", items: ["Inspect Fetch/XHR details in DevTools, search by URL, path, or name, and create one rule or a batch.", "One pipeline for matching, request rewrites, redirects, cancellation, response mocks, header changes, and delays.", "A lightweight Popup for per-site or all-site state, matched rules, page scripts, quick creation, and request recording.", "Local-data disclosure and explicit confirmation before request interception is enabled for the first time.", "Page scripts with URL, lifecycle, and execution-world settings plus import, export, and permission guidance.", "Configuration import and export, match-conflict warnings, local privacy information, and Chinese/English UI."], links: [{ label: "View Reqix on the Chrome Web Store", href: CHROME_WEB_STORE_URL }, { label: "View Reqix on Microsoft Edge Add-ons", href: EDGE_ADDONS_URL }] },
       { title: "Release principle", paragraphs: ["Reqix is publicly available. Future changes to rule formats, storage structures, or message protocols will account for compatibility and upgrade paths for published configurations."] },
     ],
   },
   download: {
     eyebrow: "Get Reqix",
     title: "Choose your Chromium browser",
-    description: "Reqix is now available on the Chrome Web Store. Install it from the official listing and avoid untrusted packages.",
+    description: "Reqix is officially available on the Chrome Web Store and Microsoft Edge Add-ons. Choose the official store for your current browser.",
     updated: "Supports Chrome 138+ and Edge 138+",
     sections: [
-      { title: "Chrome Web Store", paragraphs: ["The Chrome version is officially available. Install it from the verified store listing below to receive future updates."], links: [{ label: "Install Reqix from the Chrome Web Store", href: CHROME_WEB_STORE_URL }], note: "Available" },
-      { title: "Microsoft Edge Add-ons", paragraphs: ["Edge uses the same Chromium Manifest V3 implementation. Its store listing will follow after the Chrome release flow is stable."], note: "Planned" },
-      { title: "Installation safety", items: ["Use only the official Chrome Web Store or Microsoft Edge Add-ons links published on this page.", "Do not download Reqix from third-party mirrors, file-sharing services, or unofficial packages.", "The Chrome Web Store listing above is the current public installation channel; an Edge store link is not yet available."] },
+      { title: "Chrome Web Store", paragraphs: ["If you use Google Chrome, install Reqix from the Chrome Web Store to receive future updates automatically."], links: [{ label: "Download Reqix from the Chrome Web Store", href: CHROME_WEB_STORE_URL }] },
+      { title: "Microsoft Edge Add-ons", paragraphs: ["If you use Microsoft Edge, install Reqix from the Edge Add-ons store to receive future updates automatically."], links: [{ label: "Download Reqix from Microsoft Edge Add-ons", href: EDGE_ADDONS_URL }] },
+      { title: "Installation safety", items: ["Use only the official Chrome Web Store or Microsoft Edge Add-ons links published on this page.", "Do not download Reqix from third-party mirrors, file-sharing services, or unofficial packages.", "Choose the store for your current browser and avoid unverified distributions."] },
       { title: "Platform scope", paragraphs: ["Reqix formally supports modern Google Chrome and Microsoft Edge only. Firefox, Safari, Brave, Opera, and other browsers are currently outside the support scope."] },
     ],
   },
