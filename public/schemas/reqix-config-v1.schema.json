@@ -1,0 +1,713 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "format",
+    "version",
+    "exportedAt",
+    "groups",
+    "rules",
+    "pageScripts"
+  ],
+  "properties": {
+    "format": {
+      "const": "reqix-config"
+    },
+    "version": {
+      "const": 1
+    },
+    "exportedAt": {
+      "type": "number"
+    },
+    "groups": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/group"
+      },
+      "maxItems": 5000
+    },
+    "rules": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/rootRule"
+      },
+      "maxItems": 20000
+    },
+    "pageScripts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/pageScript"
+      },
+      "maxItems": 100
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://reqix-dev.github.io/reqix-website/schemas/reqix-config-v1.schema.json",
+  "title": "Reqix configuration v1 / Reqix 配置 v1",
+  "description": "公开导入文件的结构约束。ID 唯一性、分组引用、总规则数、正则及运行效果仍需单独验证。 / Public import structure; validate unique IDs, group references, total rule count, patterns and runtime behavior separately.",
+  "definitions": {
+    "pageUrlRule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "matchType",
+        "value"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "matchType": {
+          "enum": [
+            "exact",
+            "contains",
+            "regex",
+            "wildcard"
+          ]
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "scriptUrlRule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "matchType",
+        "value"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "matchType": {
+          "enum": [
+            "exact",
+            "contains",
+            "regex",
+            "wildcard"
+          ]
+        },
+        "value": {
+          "type": "string",
+          "pattern": "\\S"
+        }
+      }
+    },
+    "operation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "value",
+        "operation"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        },
+        "originalValue": {
+          "type": "string"
+        },
+        "operation": {
+          "enum": [
+            "add",
+            "modify",
+            "remove"
+          ]
+        }
+      }
+    },
+    "pipeline": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "request",
+        "route",
+        "response"
+      ],
+      "properties": {
+        "request": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "headers",
+            "data"
+          ],
+          "properties": {
+            "headers": {
+              "type": "boolean"
+            },
+            "data": {
+              "type": "boolean"
+            }
+          }
+        },
+        "route": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "mode"
+          ],
+          "properties": {
+            "mode": {
+              "enum": [
+                "origin",
+                "redirect",
+                "cancel"
+              ]
+            }
+          }
+        },
+        "response": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "mode",
+            "headers",
+            "delay"
+          ],
+          "properties": {
+            "mode": {
+              "enum": [
+                "upstream",
+                "mock"
+              ]
+            },
+            "headers": {
+              "type": "boolean"
+            },
+            "delay": {
+              "type": "boolean"
+            }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "route": {
+                "properties": {
+                  "mode": {
+                    "enum": [
+                      "redirect",
+                      "cancel"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "request": {
+                "properties": {
+                  "headers": {
+                    "const": false
+                  },
+                  "data": {
+                    "const": false
+                  }
+                }
+              },
+              "response": {
+                "properties": {
+                  "mode": {
+                    "const": "upstream"
+                  },
+                  "headers": {
+                    "const": false
+                  },
+                  "delay": {
+                    "const": false
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "groupId",
+        "name",
+        "enabled",
+        "enabledIndex",
+        "url",
+        "matchType",
+        "method",
+        "pageScope",
+        "pageUrlRules",
+        "statusCode",
+        "responseDelay",
+        "responseBody",
+        "responseContentType",
+        "responseBodyMode",
+        "requestHeaderRules",
+        "queryParamRules",
+        "responseHeaderRules",
+        "preserveRedirectQuery",
+        "pipeline",
+        "sort",
+        "hitCount",
+        "createTime",
+        "updateTime"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "groupId": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "enabledIndex": {
+          "enum": [
+            0,
+            1
+          ]
+        },
+        "url": {
+          "type": "string"
+        },
+        "matchType": {
+          "enum": [
+            "exact",
+            "contains",
+            "regex",
+            "wildcard"
+          ]
+        },
+        "method": {
+          "enum": [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH",
+            "ALL"
+          ]
+        },
+        "pageScope": {
+          "enum": [
+            "all",
+            "specified"
+          ]
+        },
+        "pageUrlRules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/pageUrlRule"
+          }
+        },
+        "statusCode": {
+          "type": "number"
+        },
+        "responseDelay": {
+          "type": "number",
+          "minimum": 0
+        },
+        "responseBody": {
+          "type": "string",
+          "description": "响应正文是字符串；JSON 对象必须序列化。 / Body text; serialize JSON objects into a string."
+        },
+        "responseContentType": {
+          "type": "string"
+        },
+        "responseBodyMode": {
+          "enum": [
+            "static",
+            "dynamic"
+          ]
+        },
+        "requestHeaderRules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/operation"
+          }
+        },
+        "queryParamRules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/operation"
+          }
+        },
+        "responseHeaderRules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/operation"
+          }
+        },
+        "preserveRedirectQuery": {
+          "type": "boolean"
+        },
+        "pipeline": {
+          "$ref": "#/definitions/pipeline"
+        },
+        "sort": {
+          "type": "number"
+        },
+        "hitCount": {
+          "type": "number"
+        },
+        "createTime": {
+          "type": "number"
+        },
+        "updateTime": {
+          "type": "number"
+        },
+        "responseScript": {
+          "type": "string"
+        },
+        "requestPayload": {
+          "type": "string"
+        },
+        "redirectUrl": {
+          "type": "string"
+        },
+        "originalRequestUrl": {
+          "type": "string"
+        },
+        "originalRequestMethod": {
+          "type": "string"
+        },
+        "originalRequestPayload": {
+          "type": "string"
+        },
+        "sourceRequestId": {
+          "type": "string"
+        },
+        "originalRequestHeaders": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "originalResponseHeaders": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "originalQueryParams": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "originalRequestType": {
+          "enum": [
+            "Fetch/XHR",
+            "JS",
+            "CSS",
+            "Img",
+            "Media",
+            "Font",
+            "Doc",
+            "WS",
+            "Wasm",
+            "Manifest",
+            "Other"
+          ]
+        },
+        "draft": {
+          "type": "boolean"
+        },
+        "source": {
+          "enum": [
+            "manual",
+            "network"
+          ]
+        },
+        "recordingConflictRuleIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "editorActionOrder": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "response",
+              "requestHeaders",
+              "requestData",
+              "responseHeaders",
+              "redirect",
+              "cancel",
+              "delay"
+            ]
+          },
+          "uniqueItems": true
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "enabled": {
+                "const": false
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "enabledIndex": {
+                "const": 0
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "enabledIndex": {
+                "const": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "pipeline": {
+                "properties": {
+                  "route": {
+                    "properties": {
+                      "mode": {
+                        "const": "redirect"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "anyOf": [
+              {
+                "required": [
+                  "redirectUrl"
+                ],
+                "properties": {
+                  "redirectUrl": {
+                    "type": "string",
+                    "format": "uri",
+                    "pattern": "^https?://[^/\\s?#]+"
+                  }
+                }
+              },
+              {
+                "required": [
+                  "draft"
+                ],
+                "properties": {
+                  "enabled": {
+                    "const": false
+                  },
+                  "draft": {
+                    "const": true
+                  },
+                  "redirectUrl": {
+                    "type": "string",
+                    "pattern": "^\\s*$"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "source"
+            ],
+            "properties": {
+              "source": {
+                "const": "network"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "originalRequestUrl",
+              "originalRequestMethod",
+              "originalRequestType"
+            ],
+            "properties": {
+              "originalRequestUrl": {
+                "type": "string",
+                "format": "uri",
+                "pattern": "^https?://[^/\\s?#]+"
+              },
+              "originalRequestMethod": {
+                "type": "string",
+                "pattern": "\\S"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "rootRule": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/rule"
+        },
+        {
+          "properties": {
+            "groupId": {
+              "const": ""
+            }
+          }
+        }
+      ]
+    },
+    "group": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "enabled",
+        "sort",
+        "createTime",
+        "updateTime",
+        "rules"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "parentId": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "sort": {
+          "type": "number"
+        },
+        "createTime": {
+          "type": "number"
+        },
+        "updateTime": {
+          "type": "number"
+        },
+        "rules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/rule"
+          }
+        }
+      }
+    },
+    "pageScript": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "description",
+        "enabled",
+        "includeUrlRules",
+        "excludeUrlRules",
+        "runAt",
+        "world",
+        "allFrames",
+        "code",
+        "source",
+        "createTime",
+        "updateTime"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "pattern": "\\S"
+        },
+        "description": {
+          "type": "string"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "includeUrlRules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/scriptUrlRule"
+          },
+          "minItems": 1
+        },
+        "excludeUrlRules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/scriptUrlRule"
+          }
+        },
+        "runAt": {
+          "enum": [
+            "document_start",
+            "document_end",
+            "document_idle"
+          ]
+        },
+        "world": {
+          "enum": [
+            "USER_SCRIPT",
+            "MAIN"
+          ]
+        },
+        "allFrames": {
+          "type": "boolean"
+        },
+        "code": {
+          "type": "string"
+        },
+        "source": {
+          "enum": [
+            "manual",
+            "userscript-import"
+          ]
+        },
+        "importWarnings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "createTime": {
+          "type": "number"
+        },
+        "updateTime": {
+          "type": "number"
+        }
+      }
+    }
+  }
+}

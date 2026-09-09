@@ -1,0 +1,63 @@
+{
+  "format": "reqix-config",
+  "version": 1,
+  "exportedAt": 1788912000000,
+  "groups": [],
+  "rules": [
+    {
+      "id": "example-request-payload",
+      "groupId": "",
+      "name": "Request payload · full replacement",
+      "enabled": false,
+      "enabledIndex": 0,
+      "url": "http://localhost:3000/api/echo",
+      "matchType": "exact",
+      "method": "POST",
+      "pageScope": "specified",
+      "pageUrlRules": [
+        {
+          "id": "page-local",
+          "matchType": "exact",
+          "value": "http://localhost:3000"
+        }
+      ],
+      "statusCode": 200,
+      "responseDelay": 0,
+      "responseBody": "{}",
+      "responseContentType": "application/json; charset=utf-8",
+      "responseBodyMode": "static",
+      "requestHeaderRules": [
+        {
+          "id": "content-type",
+          "name": "Content-Type",
+          "value": "application/json",
+          "operation": "modify"
+        }
+      ],
+      "queryParamRules": [],
+      "responseHeaderRules": [],
+      "preserveRedirectQuery": true,
+      "pipeline": {
+        "request": {
+          "headers": true,
+          "data": true
+        },
+        "route": {
+          "mode": "origin"
+        },
+        "response": {
+          "mode": "upstream",
+          "headers": false,
+          "delay": false
+        }
+      },
+      "sort": 6,
+      "hitCount": 0,
+      "source": "manual",
+      "createTime": 1788912000000,
+      "updateTime": 1788912000000,
+      "requestPayload": "{\"name\":\"Avery\",\"plan\":\"demo\"}"
+    }
+  ],
+  "pageScripts": []
+}

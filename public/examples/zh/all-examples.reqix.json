@@ -1,0 +1,596 @@
+{
+  "format": "reqix-config",
+  "version": 1,
+  "exportedAt": 1788912000000,
+  "groups": [
+    {
+      "id": "example-group",
+      "name": "Reqix 实战案例",
+      "enabled": false,
+      "sort": 0,
+      "createTime": 1788912000000,
+      "updateTime": 1788912000000,
+      "rules": [
+        {
+          "id": "example-users-success",
+          "groupId": "example-group",
+          "name": "用户列表 · 正常",
+          "enabled": false,
+          "enabledIndex": 0,
+          "url": "http://localhost:3000/api/users",
+          "matchType": "exact",
+          "method": "GET",
+          "pageScope": "specified",
+          "pageUrlRules": [
+            {
+              "id": "page-local",
+              "matchType": "exact",
+              "value": "http://localhost:3000"
+            }
+          ],
+          "statusCode": 200,
+          "responseDelay": 0,
+          "responseBody": "{\"items\":[{\"id\":1,\"name\":\"Avery\"},{\"id\":2,\"name\":\"Riley\"}],\"total\":2}",
+          "responseContentType": "application/json; charset=utf-8",
+          "responseBodyMode": "static",
+          "requestHeaderRules": [],
+          "queryParamRules": [],
+          "responseHeaderRules": [],
+          "preserveRedirectQuery": true,
+          "pipeline": {
+            "request": {
+              "headers": false,
+              "data": false
+            },
+            "route": {
+              "mode": "origin"
+            },
+            "response": {
+              "mode": "mock",
+              "headers": false,
+              "delay": false
+            }
+          },
+          "sort": 0,
+          "hitCount": 0,
+          "source": "manual",
+          "createTime": 1788912000000,
+          "updateTime": 1788912000000
+        },
+        {
+          "id": "example-users-empty",
+          "groupId": "example-group",
+          "name": "用户列表 · 空数据",
+          "enabled": false,
+          "enabledIndex": 0,
+          "url": "http://localhost:3000/api/users",
+          "matchType": "exact",
+          "method": "GET",
+          "pageScope": "specified",
+          "pageUrlRules": [
+            {
+              "id": "page-local",
+              "matchType": "exact",
+              "value": "http://localhost:3000"
+            }
+          ],
+          "statusCode": 200,
+          "responseDelay": 0,
+          "responseBody": "{\"items\":[],\"total\":0}",
+          "responseContentType": "application/json; charset=utf-8",
+          "responseBodyMode": "static",
+          "requestHeaderRules": [],
+          "queryParamRules": [],
+          "responseHeaderRules": [],
+          "preserveRedirectQuery": true,
+          "pipeline": {
+            "request": {
+              "headers": false,
+              "data": false
+            },
+            "route": {
+              "mode": "origin"
+            },
+            "response": {
+              "mode": "mock",
+              "headers": false,
+              "delay": false
+            }
+          },
+          "sort": 1,
+          "hitCount": 0,
+          "source": "manual",
+          "createTime": 1788912000000,
+          "updateTime": 1788912000000
+        },
+        {
+          "id": "example-users-error",
+          "groupId": "example-group",
+          "name": "用户列表 · 服务异常",
+          "enabled": false,
+          "enabledIndex": 0,
+          "url": "http://localhost:3000/api/users",
+          "matchType": "exact",
+          "method": "GET",
+          "pageScope": "specified",
+          "pageUrlRules": [
+            {
+              "id": "page-local",
+              "matchType": "exact",
+              "value": "http://localhost:3000"
+            }
+          ],
+          "statusCode": 500,
+          "responseDelay": 0,
+          "responseBody": "{\"code\":\"DEMO_SERVER_ERROR\",\"message\":\"Please try again\"}",
+          "responseContentType": "application/json; charset=utf-8",
+          "responseBodyMode": "static",
+          "requestHeaderRules": [],
+          "queryParamRules": [],
+          "responseHeaderRules": [],
+          "preserveRedirectQuery": true,
+          "pipeline": {
+            "request": {
+              "headers": false,
+              "data": false
+            },
+            "route": {
+              "mode": "origin"
+            },
+            "response": {
+              "mode": "mock",
+              "headers": false,
+              "delay": false
+            }
+          },
+          "sort": 2,
+          "hitCount": 0,
+          "source": "manual",
+          "createTime": 1788912000000,
+          "updateTime": 1788912000000
+        },
+        {
+          "id": "example-dynamic-pagination",
+          "groupId": "example-group",
+          "name": "动态分页",
+          "enabled": false,
+          "enabledIndex": 0,
+          "url": "^http://localhost:3000/api/users(?:\\?.*)?$",
+          "matchType": "regex",
+          "method": "GET",
+          "pageScope": "specified",
+          "pageUrlRules": [
+            {
+              "id": "page-local",
+              "matchType": "exact",
+              "value": "http://localhost:3000"
+            }
+          ],
+          "statusCode": 200,
+          "responseDelay": 0,
+          "responseBody": "{}",
+          "responseContentType": "application/json; charset=utf-8",
+          "responseBodyMode": "dynamic",
+          "requestHeaderRules": [],
+          "queryParamRules": [],
+          "responseHeaderRules": [],
+          "preserveRedirectQuery": true,
+          "pipeline": {
+            "request": {
+              "headers": false,
+              "data": false
+            },
+            "route": {
+              "mode": "origin"
+            },
+            "response": {
+              "mode": "mock",
+              "headers": false,
+              "delay": false
+            }
+          },
+          "sort": 3,
+          "hitCount": 0,
+          "source": "manual",
+          "createTime": 1788912000000,
+          "updateTime": 1788912000000,
+          "responseScript": "async function generateResponse(request) {\n  const page = Math.max(1, Math.floor(Number(request.query.page) || 1));\n  const pageSize = 2;\n  const users = [\n    { id: 1, name: \"Avery\" },\n    { id: 2, name: \"Riley\" },\n    { id: 3, name: \"Morgan\" },\n    { id: 4, name: \"Casey\" },\n    { id: 5, name: \"Jordan\" }\n  ];\n  return { page, pageSize, total: users.length,\n    items: users.slice((page - 1) * pageSize, page * pageSize) };\n}"
+        },
+        {
+          "id": "example-request-headers",
+          "groupId": "example-group",
+          "name": "请求头 · 演示环境",
+          "enabled": false,
+          "enabledIndex": 0,
+          "url": "http://localhost:3000/api/echo",
+          "matchType": "exact",
+          "method": "GET",
+          "pageScope": "specified",
+          "pageUrlRules": [
+            {
+              "id": "page-local",
+              "matchType": "exact",
+              "value": "http://localhost:3000"
+            }
+          ],
+          "statusCode": 200,
+          "responseDelay": 0,
+          "responseBody": "{}",
+          "responseContentType": "application/json; charset=utf-8",
+          "responseBodyMode": "static",
+          "requestHeaderRules": [
+            {
+              "id": "x-demo-environment",
+              "name": "X-Demo-Environment",
+              "value": "staging",
+              "operation": "modify"
+            },
+            {
+              "id": "x-debug-trace",
+              "name": "X-Debug-Trace",
+              "value": "",
+              "operation": "remove"
+            }
+          ],
+          "queryParamRules": [],
+          "responseHeaderRules": [],
+          "preserveRedirectQuery": true,
+          "pipeline": {
+            "request": {
+              "headers": true,
+              "data": false
+            },
+            "route": {
+              "mode": "origin"
+            },
+            "response": {
+              "mode": "upstream",
+              "headers": false,
+              "delay": false
+            }
+          },
+          "sort": 4,
+          "hitCount": 0,
+          "source": "manual",
+          "createTime": 1788912000000,
+          "updateTime": 1788912000000
+        },
+        {
+          "id": "example-query-params",
+          "groupId": "example-group",
+          "name": "查询参数 · 分页与筛选",
+          "enabled": false,
+          "enabledIndex": 0,
+          "url": "http://localhost:3000/api/echo?page=1&debug=1",
+          "matchType": "exact",
+          "method": "GET",
+          "pageScope": "specified",
+          "pageUrlRules": [
+            {
+              "id": "page-local",
+              "matchType": "exact",
+              "value": "http://localhost:3000"
+            }
+          ],
+          "statusCode": 200,
+          "responseDelay": 0,
+          "responseBody": "{}",
+          "responseContentType": "application/json; charset=utf-8",
+          "responseBodyMode": "static",
+          "requestHeaderRules": [],
+          "queryParamRules": [
+            {
+              "id": "page",
+              "name": "page",
+              "value": "2",
+              "operation": "modify"
+            },
+            {
+              "id": "pagesize",
+              "name": "pageSize",
+              "value": "20",
+              "operation": "add"
+            },
+            {
+              "id": "debug",
+              "name": "debug",
+              "value": "",
+              "operation": "remove"
+            }
+          ],
+          "responseHeaderRules": [],
+          "preserveRedirectQuery": true,
+          "pipeline": {
+            "request": {
+              "headers": false,
+              "data": true
+            },
+            "route": {
+              "mode": "origin"
+            },
+            "response": {
+              "mode": "upstream",
+              "headers": false,
+              "delay": false
+            }
+          },
+          "sort": 5,
+          "hitCount": 0,
+          "source": "manual",
+          "createTime": 1788912000000,
+          "updateTime": 1788912000000
+        },
+        {
+          "id": "example-request-payload",
+          "groupId": "example-group",
+          "name": "请求体 · 完整替换",
+          "enabled": false,
+          "enabledIndex": 0,
+          "url": "http://localhost:3000/api/echo",
+          "matchType": "exact",
+          "method": "POST",
+          "pageScope": "specified",
+          "pageUrlRules": [
+            {
+              "id": "page-local",
+              "matchType": "exact",
+              "value": "http://localhost:3000"
+            }
+          ],
+          "statusCode": 200,
+          "responseDelay": 0,
+          "responseBody": "{}",
+          "responseContentType": "application/json; charset=utf-8",
+          "responseBodyMode": "static",
+          "requestHeaderRules": [
+            {
+              "id": "content-type",
+              "name": "Content-Type",
+              "value": "application/json",
+              "operation": "modify"
+            }
+          ],
+          "queryParamRules": [],
+          "responseHeaderRules": [],
+          "preserveRedirectQuery": true,
+          "pipeline": {
+            "request": {
+              "headers": true,
+              "data": true
+            },
+            "route": {
+              "mode": "origin"
+            },
+            "response": {
+              "mode": "upstream",
+              "headers": false,
+              "delay": false
+            }
+          },
+          "sort": 6,
+          "hitCount": 0,
+          "source": "manual",
+          "createTime": 1788912000000,
+          "updateTime": 1788912000000,
+          "requestPayload": "{\"name\":\"Avery\",\"plan\":\"demo\"}"
+        },
+        {
+          "id": "example-response-headers",
+          "groupId": "example-group",
+          "name": "响应头 · 调试标记",
+          "enabled": false,
+          "enabledIndex": 0,
+          "url": "http://localhost:3000/api/echo",
+          "matchType": "exact",
+          "method": "GET",
+          "pageScope": "specified",
+          "pageUrlRules": [
+            {
+              "id": "page-local",
+              "matchType": "exact",
+              "value": "http://localhost:3000"
+            }
+          ],
+          "statusCode": 200,
+          "responseDelay": 0,
+          "responseBody": "{}",
+          "responseContentType": "application/json; charset=utf-8",
+          "responseBodyMode": "static",
+          "requestHeaderRules": [],
+          "queryParamRules": [],
+          "responseHeaderRules": [
+            {
+              "id": "x-demo-response",
+              "name": "X-Demo-Response",
+              "value": "reqix",
+              "operation": "modify"
+            }
+          ],
+          "preserveRedirectQuery": true,
+          "pipeline": {
+            "request": {
+              "headers": false,
+              "data": false
+            },
+            "route": {
+              "mode": "origin"
+            },
+            "response": {
+              "mode": "upstream",
+              "headers": true,
+              "delay": false
+            }
+          },
+          "sort": 7,
+          "hitCount": 0,
+          "source": "manual",
+          "createTime": 1788912000000,
+          "updateTime": 1788912000000
+        },
+        {
+          "id": "example-delay",
+          "groupId": "example-group",
+          "name": "延迟 · 两秒加载",
+          "enabled": false,
+          "enabledIndex": 0,
+          "url": "http://localhost:3000/api/echo",
+          "matchType": "exact",
+          "method": "GET",
+          "pageScope": "specified",
+          "pageUrlRules": [
+            {
+              "id": "page-local",
+              "matchType": "exact",
+              "value": "http://localhost:3000"
+            }
+          ],
+          "statusCode": 200,
+          "responseDelay": 2000,
+          "responseBody": "{}",
+          "responseContentType": "application/json; charset=utf-8",
+          "responseBodyMode": "static",
+          "requestHeaderRules": [],
+          "queryParamRules": [],
+          "responseHeaderRules": [],
+          "preserveRedirectQuery": true,
+          "pipeline": {
+            "request": {
+              "headers": false,
+              "data": false
+            },
+            "route": {
+              "mode": "origin"
+            },
+            "response": {
+              "mode": "upstream",
+              "headers": false,
+              "delay": true
+            }
+          },
+          "sort": 8,
+          "hitCount": 0,
+          "source": "manual",
+          "createTime": 1788912000000,
+          "updateTime": 1788912000000
+        },
+        {
+          "id": "example-redirect",
+          "groupId": "example-group",
+          "name": "重定向 · 本地接口",
+          "enabled": false,
+          "enabledIndex": 0,
+          "url": "http://localhost:3000/api/legacy?source=demo",
+          "matchType": "exact",
+          "method": "GET",
+          "pageScope": "specified",
+          "pageUrlRules": [
+            {
+              "id": "page-local",
+              "matchType": "exact",
+              "value": "http://localhost:3000"
+            }
+          ],
+          "statusCode": 200,
+          "responseDelay": 0,
+          "responseBody": "{}",
+          "responseContentType": "application/json; charset=utf-8",
+          "responseBodyMode": "static",
+          "requestHeaderRules": [],
+          "queryParamRules": [],
+          "responseHeaderRules": [],
+          "preserveRedirectQuery": true,
+          "pipeline": {
+            "request": {
+              "headers": false,
+              "data": false
+            },
+            "route": {
+              "mode": "redirect"
+            },
+            "response": {
+              "mode": "upstream",
+              "headers": false,
+              "delay": false
+            }
+          },
+          "sort": 9,
+          "hitCount": 0,
+          "source": "manual",
+          "createTime": 1788912000000,
+          "updateTime": 1788912000000,
+          "redirectUrl": "http://localhost:3000/api/echo"
+        },
+        {
+          "id": "example-cancel",
+          "groupId": "example-group",
+          "name": "取消 · 演示埋点",
+          "enabled": false,
+          "enabledIndex": 0,
+          "url": "http://localhost:3000/api/analytics",
+          "matchType": "exact",
+          "method": "POST",
+          "pageScope": "specified",
+          "pageUrlRules": [
+            {
+              "id": "page-local",
+              "matchType": "exact",
+              "value": "http://localhost:3000"
+            }
+          ],
+          "statusCode": 200,
+          "responseDelay": 0,
+          "responseBody": "{}",
+          "responseContentType": "application/json; charset=utf-8",
+          "responseBodyMode": "static",
+          "requestHeaderRules": [],
+          "queryParamRules": [],
+          "responseHeaderRules": [],
+          "preserveRedirectQuery": true,
+          "pipeline": {
+            "request": {
+              "headers": false,
+              "data": false
+            },
+            "route": {
+              "mode": "cancel"
+            },
+            "response": {
+              "mode": "upstream",
+              "headers": false,
+              "delay": false
+            }
+          },
+          "sort": 10,
+          "hitCount": 0,
+          "source": "manual",
+          "createTime": 1788912000000,
+          "updateTime": 1788912000000
+        }
+      ]
+    }
+  ],
+  "rules": [],
+  "pageScripts": [
+    {
+      "id": "example-page-badge",
+      "name": "本地演示环境",
+      "description": "本地演示环境",
+      "enabled": false,
+      "includeUrlRules": [
+        {
+          "id": "local-page",
+          "matchType": "regex",
+          "value": "^http://localhost:3000/"
+        }
+      ],
+      "excludeUrlRules": [],
+      "runAt": "document_idle",
+      "world": "USER_SCRIPT",
+      "allFrames": false,
+      "code": "(() => {\n  if (document.getElementById(\"reqix-demo-badge\")) return;\n  const badge = document.createElement(\"div\");\n  badge.id = \"reqix-demo-badge\";\n  badge.textContent = \"本地演示环境\";\n  badge.style.cssText = \"position:fixed;bottom:16px;right:16px;z-index:2147483647;padding:8px 12px;background:#173e32;color:white;border-radius:6px;font:14px sans-serif;pointer-events:none\";\n  document.body.appendChild(badge);\n})();",
+      "source": "manual",
+      "createTime": 1788912000000,
+      "updateTime": 1788912000000
+    }
+  ]
+}

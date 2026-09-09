@@ -1,0 +1,157 @@
+{
+  "format": "reqix-config",
+  "version": 1,
+  "exportedAt": 1788912000000,
+  "groups": [
+    {
+      "id": "example-group",
+      "name": "用户列表场景",
+      "enabled": false,
+      "sort": 0,
+      "createTime": 1788912000000,
+      "updateTime": 1788912000000,
+      "rules": [
+        {
+          "id": "example-users-success",
+          "groupId": "example-group",
+          "name": "用户列表 · 正常",
+          "enabled": false,
+          "enabledIndex": 0,
+          "url": "http://localhost:3000/api/users",
+          "matchType": "exact",
+          "method": "GET",
+          "pageScope": "specified",
+          "pageUrlRules": [
+            {
+              "id": "page-local",
+              "matchType": "exact",
+              "value": "http://localhost:3000"
+            }
+          ],
+          "statusCode": 200,
+          "responseDelay": 0,
+          "responseBody": "{\"items\":[{\"id\":1,\"name\":\"Avery\"},{\"id\":2,\"name\":\"Riley\"}],\"total\":2}",
+          "responseContentType": "application/json; charset=utf-8",
+          "responseBodyMode": "static",
+          "requestHeaderRules": [],
+          "queryParamRules": [],
+          "responseHeaderRules": [],
+          "preserveRedirectQuery": true,
+          "pipeline": {
+            "request": {
+              "headers": false,
+              "data": false
+            },
+            "route": {
+              "mode": "origin"
+            },
+            "response": {
+              "mode": "mock",
+              "headers": false,
+              "delay": false
+            }
+          },
+          "sort": 0,
+          "hitCount": 0,
+          "source": "manual",
+          "createTime": 1788912000000,
+          "updateTime": 1788912000000
+        },
+        {
+          "id": "example-users-empty",
+          "groupId": "example-group",
+          "name": "用户列表 · 空数据",
+          "enabled": false,
+          "enabledIndex": 0,
+          "url": "http://localhost:3000/api/users",
+          "matchType": "exact",
+          "method": "GET",
+          "pageScope": "specified",
+          "pageUrlRules": [
+            {
+              "id": "page-local",
+              "matchType": "exact",
+              "value": "http://localhost:3000"
+            }
+          ],
+          "statusCode": 200,
+          "responseDelay": 0,
+          "responseBody": "{\"items\":[],\"total\":0}",
+          "responseContentType": "application/json; charset=utf-8",
+          "responseBodyMode": "static",
+          "requestHeaderRules": [],
+          "queryParamRules": [],
+          "responseHeaderRules": [],
+          "preserveRedirectQuery": true,
+          "pipeline": {
+            "request": {
+              "headers": false,
+              "data": false
+            },
+            "route": {
+              "mode": "origin"
+            },
+            "response": {
+              "mode": "mock",
+              "headers": false,
+              "delay": false
+            }
+          },
+          "sort": 1,
+          "hitCount": 0,
+          "source": "manual",
+          "createTime": 1788912000000,
+          "updateTime": 1788912000000
+        },
+        {
+          "id": "example-users-error",
+          "groupId": "example-group",
+          "name": "用户列表 · 服务异常",
+          "enabled": false,
+          "enabledIndex": 0,
+          "url": "http://localhost:3000/api/users",
+          "matchType": "exact",
+          "method": "GET",
+          "pageScope": "specified",
+          "pageUrlRules": [
+            {
+              "id": "page-local",
+              "matchType": "exact",
+              "value": "http://localhost:3000"
+            }
+          ],
+          "statusCode": 500,
+          "responseDelay": 0,
+          "responseBody": "{\"code\":\"DEMO_SERVER_ERROR\",\"message\":\"Please try again\"}",
+          "responseContentType": "application/json; charset=utf-8",
+          "responseBodyMode": "static",
+          "requestHeaderRules": [],
+          "queryParamRules": [],
+          "responseHeaderRules": [],
+          "preserveRedirectQuery": true,
+          "pipeline": {
+            "request": {
+              "headers": false,
+              "data": false
+            },
+            "route": {
+              "mode": "origin"
+            },
+            "response": {
+              "mode": "mock",
+              "headers": false,
+              "delay": false
+            }
+          },
+          "sort": 2,
+          "hitCount": 0,
+          "source": "manual",
+          "createTime": 1788912000000,
+          "updateTime": 1788912000000
+        }
+      ]
+    }
+  ],
+  "rules": [],
+  "pageScripts": []
+}

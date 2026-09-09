@@ -1,0 +1,74 @@
+{
+  "format": "reqix-config",
+  "version": 1,
+  "exportedAt": 1788912000000,
+  "groups": [],
+  "rules": [
+    {
+      "id": "example-query-params",
+      "groupId": "",
+      "name": "Query parameters · pagination and filters",
+      "enabled": false,
+      "enabledIndex": 0,
+      "url": "http://localhost:3000/api/echo?page=1&debug=1",
+      "matchType": "exact",
+      "method": "GET",
+      "pageScope": "specified",
+      "pageUrlRules": [
+        {
+          "id": "page-local",
+          "matchType": "exact",
+          "value": "http://localhost:3000"
+        }
+      ],
+      "statusCode": 200,
+      "responseDelay": 0,
+      "responseBody": "{}",
+      "responseContentType": "application/json; charset=utf-8",
+      "responseBodyMode": "static",
+      "requestHeaderRules": [],
+      "queryParamRules": [
+        {
+          "id": "page",
+          "name": "page",
+          "value": "2",
+          "operation": "modify"
+        },
+        {
+          "id": "pagesize",
+          "name": "pageSize",
+          "value": "20",
+          "operation": "add"
+        },
+        {
+          "id": "debug",
+          "name": "debug",
+          "value": "",
+          "operation": "remove"
+        }
+      ],
+      "responseHeaderRules": [],
+      "preserveRedirectQuery": true,
+      "pipeline": {
+        "request": {
+          "headers": false,
+          "data": true
+        },
+        "route": {
+          "mode": "origin"
+        },
+        "response": {
+          "mode": "upstream",
+          "headers": false,
+          "delay": false
+        }
+      },
+      "sort": 5,
+      "hitCount": 0,
+      "source": "manual",
+      "createTime": 1788912000000,
+      "updateTime": 1788912000000
+    }
+  ],
+  "pageScripts": []
+}

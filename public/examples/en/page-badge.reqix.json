@@ -1,0 +1,30 @@
+{
+  "format": "reqix-config",
+  "version": 1,
+  "exportedAt": 1788912000000,
+  "groups": [],
+  "rules": [],
+  "pageScripts": [
+    {
+      "id": "example-page-badge",
+      "name": "Local demo environment",
+      "description": "Local demo environment",
+      "enabled": false,
+      "includeUrlRules": [
+        {
+          "id": "local-page",
+          "matchType": "regex",
+          "value": "^http://localhost:3000/"
+        }
+      ],
+      "excludeUrlRules": [],
+      "runAt": "document_idle",
+      "world": "USER_SCRIPT",
+      "allFrames": false,
+      "code": "(() => {\n  if (document.getElementById(\"reqix-demo-badge\")) return;\n  const badge = document.createElement(\"div\");\n  badge.id = \"reqix-demo-badge\";\n  badge.textContent = \"Local demo environment\";\n  badge.style.cssText = \"position:fixed;bottom:16px;right:16px;z-index:2147483647;padding:8px 12px;background:#173e32;color:white;border-radius:6px;font:14px sans-serif;pointer-events:none\";\n  document.body.appendChild(badge);\n})();",
+      "source": "manual",
+      "createTime": 1788912000000,
+      "updateTime": 1788912000000
+    }
+  ]
+}
