@@ -1,4 +1,3 @@
-import { CodeBlock } from "./code-block";
 import type { ReactNode } from "react";
 import Image from "next/image";
 import {
@@ -343,9 +342,9 @@ export function ArticlePage({ locale, id }: { locale: Locale; id: ArticleId }) {
         <aside className="docs-sidebar">
           <div className="sidebar-label">{t.menu}</div>
           <nav aria-label={t.menu}>
-            {articleOrder.slice(0, articleOrder.indexOf("permissions")).map((item) => <a key={item} className={item === id ? "active" : ""} aria-current={item === id ? "page" : undefined} href={link(articlePaths[item])}>{articleLabel(locale, item)}</a>)}
+            {articleOrder.slice(0, 4).map((item) => <a key={item} className={item === id ? "active" : ""} aria-current={item === id ? "page" : undefined} href={link(articlePaths[item])}>{articleLabel(locale, item)}</a>)}
             <div className="sidebar-label sidebar-group">{locale === "zh" ? "信任与发布" : "Trust & release"}</div>
-            {articleOrder.slice(articleOrder.indexOf("permissions")).map((item) => <a key={item} className={item === id ? "active" : ""} aria-current={item === id ? "page" : undefined} href={link(articlePaths[item])}>{articleLabel(locale, item)}</a>)}
+            {articleOrder.slice(4).map((item) => <a key={item} className={item === id ? "active" : ""} aria-current={item === id ? "page" : undefined} href={link(articlePaths[item])}>{articleLabel(locale, item)}</a>)}
           </nav>
         </aside>
 
@@ -361,13 +360,10 @@ export function ArticlePage({ locale, id }: { locale: Locale; id: ArticleId }) {
               <section key={section.title} id={`section-${sectionIndex + 1}`}>
                 <h2>{section.title}</h2>
                 {section.paragraphs?.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-                {section.links?.map((item) => <p className={id === "download" ? "article-download-action" : undefined} key={item.href}><a className={id === "download" ? "button button-primary article-download-link" : "text-link"} href={item.href.startsWith("/") ? link(item.href) : item.href}>{item.label}<span aria-hidden="true">→</span></a></p>)}
+                {section.links?.map((item) => <p className={id === "download" ? "article-download-action" : undefined} key={item.href}><a className={id === "download" ? "button button-primary article-download-link" : "text-link"} href={item.href}>{item.label}<span aria-hidden="true">→</span></a></p>)}
                 {section.steps && <ol className="article-steps">{section.steps.map((step) => <li key={step.title}><span>{String(section.steps!.indexOf(step) + 1).padStart(2, "0")}</span><div><h3>{step.title}</h3><p>{step.body}</p></div></li>)}</ol>}
                 {section.items && <ul>{section.items.map((item) => <li key={item}>{item}</li>)}</ul>}
-                {section.downloads && <div className="article-downloads">{section.downloads.map((item) => <a key={item.href} className="example-download" href={publicPath(item.href)} download><span aria-hidden="true">↓</span>{item.label}</a>)}</div>}
-                {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- 横向滚动的字段表需要键盘焦点，已提供区域名称。 */}
-                {section.table && <div className="article-table-wrap" tabIndex={0} role="region" aria-label={section.title}><table className="article-table"><thead><tr>{section.table.headers.map((header) => <th key={header} scope="col">{header}</th>)}</tr></thead><tbody>{section.table.rows.map((row) => <tr key={row[0]}>{row.map((cell, index) => index === 0 ? <th key={index} scope="row">{cell}</th> : <td key={index}>{cell}</td>)}</tr>)}</tbody></table></div>}
-                {section.code && <CodeBlock locale={locale} title={section.codeTitle ?? (locale === "zh" ? "终端 / 示例" : "Terminal / example")} code={section.code} />}
+                {section.code && <div className="code-block"><div className="code-bar"><span></span><span></span><span></span><b>{locale === "zh" ? "终端 / 示例" : "Terminal / example"}</b></div><pre><code>{section.code}</code></pre></div>}
                 {section.note && <aside className="article-note"><strong>{t.callout}</strong><p>{section.note}</p></aside>}
               </section>
             ))}

@@ -1,5 +1,3 @@
-import { guides, guideEntries } from "./guide-content";
-
 export type Locale = "zh" | "en";
 
 export const CHROME_WEB_STORE_URL =
@@ -11,9 +9,6 @@ export type ArticleId =
   | "getting-started"
   | "devtools"
   | "rules"
-  | "ai"
-  | "examples"
-  | "config-format"
   | "page-scripts"
   | "privacy"
   | "permissions"
@@ -27,9 +22,6 @@ export interface ArticleSection {
   items?: string[];
   steps?: Array<{ title: string; body: string }>;
   code?: string;
-  codeTitle?: string;
-  downloads?: Array<{ label: string; href: string }>;
-  table?: { headers: string[]; rows: string[][] };
   note?: string;
 }
 
@@ -251,9 +243,6 @@ export const articleOrder: ArticleId[] = [
   "devtools",
   "rules",
   "page-scripts",
-  "ai",
-  "examples",
-  "config-format",
   "permissions",
   "privacy",
   "changelog",
@@ -265,9 +254,6 @@ export const articlePaths: Record<ArticleId, string> = {
   devtools: "/docs/devtools",
   rules: "/docs/rules",
   "page-scripts": "/docs/page-scripts",
-  ai: "/docs/ai",
-  examples: "/docs/examples",
-  "config-format": "/docs/config-format",
   privacy: "/privacy",
   permissions: "/permissions",
   changelog: "/changelog",
@@ -275,7 +261,6 @@ export const articlePaths: Record<ArticleId, string> = {
 };
 
 const zhArticles: Record<ArticleId, Article> = {
-  ...guides.zh,
   "getting-started": {
     eyebrow: "快速开始",
     title: "安装后，约 1 分钟创建第一条请求规则",
@@ -498,7 +483,6 @@ const zhArticles: Record<ArticleId, Article> = {
 };
 
 const enArticles: Record<ArticleId, Article> = {
-  ...guides.en,
   "getting-started": {
     eyebrow: "Quick start",
     title: "After installation, create your first rule in about a minute",
@@ -610,12 +594,7 @@ const enArticles: Record<ArticleId, Article> = {
 };
 
 export function getArticle(locale: Locale, id: ArticleId): Article {
-  const article = locale === "zh" ? zhArticles[id] : enArticles[id];
-  // 在快速开始和规则模型末尾提供案例入口，读者无需从侧栏自行寻找。
-  if (id === "getting-started" || id === "rules") {
-    return { ...article, sections: [...article.sections, guideEntries[locale]] };
-  }
-  return article;
+  return locale === "zh" ? zhArticles[id] : enArticles[id];
 }
 
 export function localizePath(locale: Locale, path: string): string {
