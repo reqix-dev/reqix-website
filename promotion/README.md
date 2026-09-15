@@ -12,11 +12,12 @@ Open the URL in Chrome or Edge. Use the header controls to switch language and t
 
 ## 实际录制步骤 / Recording sequence
 
-1. 打开 Reqix DevTools 面板，然后点击页面的「重新加载」。 / Open Reqix in DevTools, then reload the products.
+1. 将 DevTools 停靠在浏览器右侧，打开 Reqix 面板，然后点击页面的「重新加载」。 / Dock DevTools on the right, open Reqix, then reload the products.
 2. 在 `/api/products` 请求右侧新建响应 Mock 规则。 / Create a response mock from the request row.
 3. 将规则限制在该本地演示地址，将响应正文改为 `{"products":[],"total":0}`。 / Scope the rule to the local demo endpoint and change its response body.
 4. 保存并启用规则、所属分组和本地演示站点接管，再次加载页面。 / Save and enable the rule, its group, and interception for the local demo site; then reload the products.
 5. 确认页面出现空状态，响应面板显示空数组。 / Verify the empty state and empty response array.
+6. 点击浏览器右上角 Reqix 图标，保留弹窗与总开关的操作画面。关闭插件后重新加载，确认三条商品恢复；重新开启并加载，确认空状态再次出现。 / Open Reqix from the top-right browser toolbar and keep the popup and main switch in view. Turn the extension off and reload to restore three products, then turn it back on and reload to verify the empty state again.
 
 本地服务器始终返回三条商品。页面没有模拟空状态的按钮，最终效果必须由真实插件处理请求产生。录制时保留创建与启用步骤；不得用动画代替实操，也不要记录真实业务请求。
 
@@ -24,22 +25,26 @@ The server always returns three products. There is no simulated empty-state cont
 
 ## 成片 / Finished video
 
-- [40 秒实操视频 / 40-second screen recording](recordings/reqix-demo.zh-CN.mp4)
-- [视频封面 / Video poster](recordings/reqix-demo-poster.jpg)
+- [41 秒实操视频 / 41-second screen recording](recordings/reqix-demo.zh-CN.mp4)
+- [首帧封面 / Opening cover](recordings/reqix-demo-poster.jpg)
 - [中文字幕 / Chinese captions](recordings/reqix-demo.zh-CN.srt)
 - [英文字幕译稿 / English caption translation](recordings/reqix-demo.en.srt)
 
-成片为 1920 × 1080、30 fps、H.264 MP4，无音轨，已嵌入中文字幕。英文 SRT 是对应时间轴的翻译稿；视频中的插件界面与固定字幕仍为中文。
+新版成片为 1920 × 1080、30 fps、H.264 MP4，无音轨，已嵌入中文字幕。视频从封面开始并停留 3 秒，封面使用现有 Reqix 标志与本次实录画面；JPEG 封面取自视频首帧。英文 SRT 是对应时间轴的翻译稿，录制界面与固定字幕仍为中文。
 
-The video is a silent 1920 × 1080, 30 fps H.264 MP4 with burned-in Chinese captions. The English SRT provides a timed translation; the recorded interface and burned-in captions remain Chinese.
+The revised video is a silent 1920 × 1080, 30 fps H.264 MP4 with burned-in Chinese captions. It opens with a three-second cover using the existing Reqix logo and a frame from this recording. The JPEG cover is extracted from the first video frame. The English SRT provides a timed translation; the recorded interface and burned-in captions remain Chinese.
 
-素材来自 Chrome 中真实运行的 Reqix 1.0.1：从请求行创建响应规则、编辑响应、开启规则并保存、开启插件、重新加载并验证空状态。演示服务器始终返回三条虚构商品，空数组由插件处理请求产生。录制完成后直接访问本地接口，仍返回三条商品。
+素材来自 Chrome 中真实运行的 Reqix 1.0.1。DevTools 停靠在右侧，完整保留地址栏、右上角插件图标、弹窗和总开关。视频展示从请求行创建响应规则、编辑响应、开启规则并保存、重新加载验证，以及关闭和重新开启插件后的结果对比。
 
-The footage shows Reqix 1.0.1 running in Chrome: creating a response rule from a request row, editing the response, enabling and saving the rule, turning on the extension, and reloading to verify the empty state. The local server always returns three fictional products; Reqix supplies the empty response. A direct API check after recording still returned three products.
+The footage shows Reqix 1.0.1 running in Chrome with DevTools docked on the right. The address bar, top-right extension icon, popup, and main switch remain visible. It demonstrates creating a response rule from a request row, editing the response, enabling and saving the rule, reloading to verify it, and comparing the results with the extension off and on.
 
-后期仅裁切、去除等待、拼接真实录屏并添加字幕；插件弹窗操作按 0.75 倍速播放，方便看清开关。保存成功片段仅保留演示规则所在区域。浏览器标签、地址栏、系统菜单、聊天窗口和无关规则均未包含在成片中，未使用合成界面或步骤动画。未经裁切的原片不入库。
+演示服务器始终返回三条虚构商品，空数组由真实插件处理请求产生。录制后直接访问本地接口，仍返回三条商品；录屏也验证了关闭插件恢复商品、重新开启后恢复空状态。
 
-Editing consists of cropping, removing pauses, joining real screen captures, and adding captions. The popup segment plays at 0.75× speed for readability. The save confirmation shot is cropped to the demo rule. Browser tabs, the address bar, system menus, chat windows, and unrelated rules are excluded. No synthetic interface or step animation replaces the recording. Uncropped source recordings are not stored in this repository.
+The local server always returns three fictional products; the real extension supplies the empty response. A direct API check after recording still returned three products. The recording also verifies that disabling the extension restores the products and enabling it restores the empty state.
+
+实操片段保持原速，只裁切画面、去除等待与无关操作，并添加字幕。系统菜单、标签栏和聊天窗口不进入成片，个人头像已遮挡。结尾对最后一帧停留 3.9 秒，展示安装地址。封面和结尾停留不替代实际操作，未经裁切的原片不入库。
+
+The interaction footage plays at its original speed, with framing crops, trimmed pauses and unrelated actions, and captions. System menus, tab strips, and chat windows are excluded, and the profile avatar is obscured. The last frame is held for 3.9 seconds to show the installation URL. The cover and closing hold do not replace real interactions. Uncropped source recordings are not stored in this repository.
 
 这些文件仅作为推广素材保存；不会自动嵌入官网或发布到社交平台。
 

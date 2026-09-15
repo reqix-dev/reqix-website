@@ -1,39 +1,47 @@
 1
 00:00:00,000 --> 00:00:03,000
-Reqix in action: from a real request to an empty state
+Reqix: turn real requests into controlled responses
 
 2
-00:00:03,000 --> 00:00:05,000
-01  Find /api/products in Reqix DevTools
+00:00:03,000 --> 00:00:06,000
+01  Open Reqix in the right-hand DevTools panel and reload
 
 3
-00:00:05,000 --> 00:00:12,800
-Click New Rule on the request row, then Modify Response Data
+00:00:06,000 --> 00:00:08,600
+Create a Modify Response Data rule from the request row
 
 4
-00:00:12,800 --> 00:00:16,800
-Add the rule, scoped to the local demo site
-
-5
-00:00:16,800 --> 00:00:21,000
+00:00:08,600 --> 00:00:13,800
 02  Set the response body to {"products":[],"total":0}
 
+5
+00:00:13,800 --> 00:00:18,700
+Enable the rule and save
+
 6
-00:00:21,000 --> 00:00:25,300
-Enable the rule, then save
+00:00:18,700 --> 00:00:20,900
+Return to the page and reload the request
 
 7
-00:00:25,300 --> 00:00:28,900
-03  Turn on Reqix in the popup
+00:00:20,900 --> 00:00:24,900
+The response is empty and the page shows its empty state
 
 8
-00:00:28,900 --> 00:00:32,700
-Reload: the response is empty and the page shows its empty state
+00:00:24,900 --> 00:00:28,500
+03  Open Reqix in the toolbar and turn the extension off
 
 9
-00:00:32,700 --> 00:00:35,500
-Empty state verified; the original API still returns three products
+00:00:28,500 --> 00:00:31,000
+Turn Reqix off and reload: the three products return
 
 10
-00:00:35,500 --> 00:00:40,000
+00:00:31,000 --> 00:00:34,600
+Turn Reqix back on and reload the page
+
+11
+00:00:34,600 --> 00:00:37,100
+The empty state returns: verify the mock again
+
+12
+00:00:37,100 --> 00:00:41,000
 Get Reqix · reqix-dev.github.io/reqix-website/
