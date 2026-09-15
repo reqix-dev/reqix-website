@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
+import { ProductPreview } from "./product-preview";
 import { ThemeToggle, MobileMenu } from "./site-controls";
 import {
   CHROME_WEB_STORE_URL,
@@ -157,64 +158,6 @@ function DownloadActions({ locale }: { locale: Locale }) {
         <span aria-hidden="true">↓</span>{t.edgeDownload}<span className="store-arrow" aria-hidden="true">↗</span>
       </a>
     </div>
-  );
-}
-
-/** 使用公开功能和虚构数据绘制示意界面，不包含插件源码或用户请求。 */
-function ProductPreview({ locale }: { locale: Locale }) {
-  const t = ui[locale].home;
-  const requests = [
-    ["GET", "/api/users/me", "200", "48 ms"],
-    ["POST", "/api/orders", "201", "126 ms"],
-    ["GET", "/api/plans", "200", "31 ms"],
-    ["PATCH", "/api/profile", "204", "74 ms"],
-  ];
-  return (
-    <figure className="product-figure">
-      <div className="product-preview" role="img" aria-label={t.previewAlt}>
-        <div className="preview-window-bar">
-          <div className="window-dots" aria-hidden="true"><i></i><i></i><i></i></div>
-          <span className="preview-address">localhost:3000</span>
-          <span className="preview-example">{t.previewExample}</span>
-        </div>
-        <div className="preview-app-bar">
-          <span className="preview-brand"><Image src={publicPath("/reqix-logo.png")} alt="" width={21} height={21} /> Reqix</span>
-          <span className="preview-active-tab">{t.previewKicker}</span>
-          <span className="live-state"><i></i>{t.previewLive}</span>
-        </div>
-        <div className="preview-toolbar">
-          <span className="preview-search"><span aria-hidden="true">⌕</span>{t.previewSearch}</span>
-          <span className="preview-create"><span aria-hidden="true">＋</span>{t.previewCreate}</span>
-        </div>
-        <div className="preview-body">
-          <div className="request-pane">
-            <div className="pane-title"><span>{t.previewRequests}</span><b>{requests.length}</b><span className="pane-meta">Fetch / XHR</span></div>
-            <div className="request-head">{t.previewColumns.map((column) => <span key={column}>{column}</span>)}</div>
-            {requests.map((request, index) => (
-              <div className={`request-row ${index === 0 ? "is-selected" : ""}`} key={request[1]}>
-                <span className={`method method-${request[0].toLowerCase()}`}>{request[0]}</span>
-                <span>{request[1]}</span>
-                <span className="status-code">{request[2]}</span>
-                <span>{request[3]}</span>
-              </div>
-            ))}
-            <div className="preview-rule-summary"><span className="rule-indicator"></span><span>{t.previewRule}</span><span>→</span></div>
-          </div>
-          <div className="detail-pane">
-            <div className="pane-title"><span>{t.previewDetail}</span><b>200 OK</b></div>
-            <div className="detail-tabs">{t.previewTabs.map((tab, index) => <span className={index === 2 ? "active" : ""} key={tab}>{tab}</span>)}</div>
-            <pre aria-hidden="true"><code>{"{\n"}{[
-              ["id", "usr_2841"], ["name", "Ada Chen"], ["role", "developer"], ["plan", "team"], ["active", true],
-            ].map(([key, value], index) => (
-              <span key={String(key)}>{"  "}<span className="code-key">{JSON.stringify(key)}</span>{": "}<span className={typeof value === "boolean" ? "code-value" : "code-string"}>{JSON.stringify(value)}</span>{index < 4 ? ",\n" : "\n"}</span>
-            ))}{"}"}</code></pre>
-            <div className="preview-response-note">{t.previewResponseNote}</div>
-          </div>
-        </div>
-        <div className="preview-statusbar"><span><i></i>{t.previewStatus}</span><span>{t.local} · {t.noAccount}</span></div>
-      </div>
-      <figcaption><span>{t.previewCaption}</span><a href={publicPath(localizePath(locale, "/docs/devtools"))}>{t.previewGuide}<span aria-hidden="true">↗</span></a></figcaption>
-    </figure>
   );
 }
 

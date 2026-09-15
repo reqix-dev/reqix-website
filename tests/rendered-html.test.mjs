@@ -264,3 +264,30 @@ test("首页上手引导保留真实捕获顺序和草稿默认停用说明", as
   assert.match(chinese, /界面示意/);
   assert.match(english, /Interface preview/);
 });
+
+test("首页主图把新建和编辑操作放在请求行末尾，并区分批量入口", async () => {
+  for (const route of ["/", "/en"]) {
+    const html = await readRoute(route);
+    // React 会在相邻文本节点间插入注释；断言用户实际看到的文字。
+    const preview = html.slice(html.indexOf('<div class="devtools-preview"'), html.indexOf('</figure>')).replace(/<!--[\s\S]*?-->/g, "");
+    const tableBody = preview.match(/<tbody>([\s\S]*?)<\/tbody>/)?.[1];
+    assert.ok(tableBody, "主图应展示请求表格");
+    const rows = [...tableBody.matchAll(/<tr\b[^>]*>([\s\S]*?)<\/tr>/g)];
+    assert.equal(rows.length, 4);
+    for (const [index, row] of rows.entries()) {
+      const cells = [...row[1].matchAll(/<td\b[^>]*>([\s\S]*?)<\/td>/g)];
+      assert.equal(cells.length, 4);
+      assert.match(cells.at(-1)[1], new RegExp(`data-preview-action="${index === 0 ? "edit" : "create"}"`));
+      assert.match(cells.at(-1)[1], route === "/" ? /title="(?:新建规则|编辑规则)"/ : /title="(?:New rule|Edit rule)"/);
+    }
+    assert.equal((tableBody.match(/class="devtools-check is-checked"/g) || []).length, 2);
+    assert.match(preview, /class="devtools-batch"[\s\S]*?\(2\)/);
+    assert.doesNotMatch(preview, /class="preview-create"/);
+    assert.match(preview, /class="is-active">Fetch\/XHR/);
+    assert.match(preview, route === "/" ? /静态推算的处理预览/ : /static processing preview computed from rule/);
+  }
+  for (const icon of ["file-add", "edit", "clear"]) {
+    const svg = await readFile(new URL(`../out/icons/ant-design/${icon}.svg`, import.meta.url), "utf8");
+    assert.match(svg, /xmlns="http:\/\/www\.w3\.org\/2000\/svg"/, "CSS 蒙版使用的独立 SVG 必须保留 XML 命名空间");
+  }
+});
