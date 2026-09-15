@@ -1,0 +1,39 @@
+1
+00:00:00,000 --> 00:00:03,000
+Reqix in action: from a real request to an empty state
+
+2
+00:00:03,000 --> 00:00:05,000
+01  Find /api/products in Reqix DevTools
+
+3
+00:00:05,000 --> 00:00:12,800
+Click New Rule on the request row, then Modify Response Data
+
+4
+00:00:12,800 --> 00:00:16,800
+Add the rule, scoped to the local demo site
+
+5
+00:00:16,800 --> 00:00:21,000
+02  Set the response body to {"products":[],"total":0}
+
+6
+00:00:21,000 --> 00:00:25,300
+Enable the rule, then save
+
+7
+00:00:25,300 --> 00:00:28,900
+03  Turn on Reqix in the popup
+
+8
+00:00:28,900 --> 00:00:32,700
+Reload: the response is empty and the page shows its empty state
+
+9
+00:00:32,700 --> 00:00:35,500
+Empty state verified; the original API still returns three products
+
+10
+00:00:35,500 --> 00:00:40,000
+Get Reqix · reqix-dev.github.io/reqix-website/
