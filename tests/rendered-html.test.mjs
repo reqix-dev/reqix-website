@@ -239,3 +239,28 @@ test("removes all disposable preview infrastructure", async () => {
   await access(new URL("../out/.nojekyll", import.meta.url));
   await access(root);
 });
+
+test("中英文首屏与页尾直接提供两个官方商店入口", async () => {
+  for (const route of ["/", "/en"]) {
+    const html = await readRoute(route);
+    const hero = html.slice(html.indexOf('<section class="hero-section">'), html.indexOf('<figure class="product-figure">'));
+    const finalCta = html.slice(html.indexOf('<section class="final-cta-section"'), html.indexOf('<footer class="site-footer"'));
+    for (const section of [hero, finalCta]) {
+      assert.match(section, /href="https:\/\/chromewebstore\.google\.com\/detail\/reqix-intercept-modify-mo\/jglhpmlcngcdkkdfjphlgfgbdabckfji"/);
+      assert.match(section, /href="https:\/\/microsoftedge\.microsoft\.com\/addons\/detail\/[^" ]+\/jaiphjpnbgpfgnikcpbpaceojfggdcii"/);
+      assert.match(section, route === "/" ? /安装到 Chrome/ : /Add to Chrome/);
+      assert.match(section, route === "/" ? /安装到 Edge/ : /Add to Edge/);
+    }
+  }
+});
+
+test("首页上手引导保留真实捕获顺序和草稿默认停用说明", async () => {
+  const chinese = await readRoute("/");
+  const english = await readRoute("/en");
+  assert.match(chinese, /再刷新页面或触发一次 Fetch\/XHR/);
+  assert.match(chinese, /生成的规则默认停用/);
+  assert.match(english, /Then refresh the page or trigger a Fetch\/XHR request/);
+  assert.match(english, /New rules are disabled by default/);
+  assert.match(chinese, /界面示意/);
+  assert.match(english, /Interface preview/);
+});

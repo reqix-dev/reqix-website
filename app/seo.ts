@@ -164,9 +164,9 @@ export function htmlLang(locale: Locale): string {
 }
 
 export const siteViewport: Viewport = {
-  colorScheme: "dark light",
+  colorScheme: "light dark",
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f7f8fb" },
-    { media: "(prefers-color-scheme: dark)", color: "#07101d" },
+    { media: "(prefers-color-scheme: light)", color: "#fbfbf9" },
+    { media: "(prefers-color-scheme: dark)", color: "#171b19" },
   ],
 };

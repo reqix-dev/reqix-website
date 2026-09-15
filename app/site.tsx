@@ -1,6 +1,9 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
+import { ThemeToggle, MobileMenu } from "./site-controls";
 import {
+  CHROME_WEB_STORE_URL,
+  EDGE_ADDONS_URL,
   articleOrder,
   articlePaths,
   getArticle,
@@ -63,23 +66,21 @@ function SiteHeader({ locale, currentPath }: { locale: Locale; currentPath: stri
           {nav}
         </nav>
         <div className="header-actions">
+          <ThemeToggle label={t.theme} />
           <a className="language-link" href={publicPath(switchLocalePath(locale, currentPath))} hrefLang={locale === "zh" ? "en" : "zh-CN"}>
-            <span className="language-icon" aria-hidden="true">◎</span>
+            <span className="language-icon" aria-hidden="true">↔</span>
             <span lang={locale === "zh" ? "en" : "zh-CN"}>{locale === "zh" ? "EN" : "中文"}</span>
           </a>
           <a className="button button-small button-primary desktop-download" href={link("/download")}>
             <span aria-hidden="true">↓</span>
             {t.download}
           </a>
-          <details className="mobile-menu">
-            <summary aria-label={locale === "zh" ? "导航菜单" : "Navigation menu"}>
-              <span></span><span></span>
-            </summary>
+          <MobileMenu label={locale === "zh" ? "导航菜单" : "Navigation menu"}>
             <nav aria-label={locale === "zh" ? "移动端导航" : "Mobile navigation"}>
               {nav}
-              <a className="mobile-download-link" href={link("/download")}>{t.download}</a>
+              <a className="mobile-download-link" href={link("/download")}><span aria-hidden="true">↓</span> {t.download}</a>
             </nav>
-          </details>
+          </MobileMenu>
         </div>
       </div>
     </header>
@@ -144,6 +145,22 @@ function SiteShell({
   );
 }
 
+/** 商店地址与安装文档共用，避免首页与下载页出现不同的发布入口。 */
+function DownloadActions({ locale }: { locale: Locale }) {
+  const t = ui[locale].home;
+  return (
+    <div className="download-actions">
+      <a className="button button-primary store-button" href={CHROME_WEB_STORE_URL}>
+        <span aria-hidden="true">↓</span>{t.chromeDownload}<span className="store-arrow" aria-hidden="true">↗</span>
+      </a>
+      <a className="button button-secondary store-button" href={EDGE_ADDONS_URL}>
+        <span aria-hidden="true">↓</span>{t.edgeDownload}<span className="store-arrow" aria-hidden="true">↗</span>
+      </a>
+    </div>
+  );
+}
+
+/** 使用公开功能和虚构数据绘制示意界面，不包含插件源码或用户请求。 */
 function ProductPreview({ locale }: { locale: Locale }) {
   const t = ui[locale].home;
   const requests = [
@@ -153,88 +170,71 @@ function ProductPreview({ locale }: { locale: Locale }) {
     ["PATCH", "/api/profile", "204", "74 ms"],
   ];
   return (
-    <div
-      className="product-preview"
-      role="img"
-      aria-label={
-        locale === "zh"
-          ? "Reqix DevTools 界面示意：查看真实请求、匹配规则与规则处理预览。"
-          : "Reqix DevTools preview showing real requests, matched rules, and rule-processing previews."
-      }
-    >
-      <div className="preview-window-bar">
-        <div className="window-dots" aria-hidden="true"><i></i><i></i><i></i></div>
-        <span>{t.previewKicker}</span>
-        <div className="live-state"><i></i>{t.previewLive}</div>
-      </div>
-      <div className="preview-toolbar">
-        <div className="preview-search"><span aria-hidden="true">⌕</span>{t.previewSearch}</div>
-        <span className="preview-create"><span aria-hidden="true">＋</span>{t.previewCreate}</span>
-      </div>
-      <div className="preview-body">
-        <div className="request-pane">
-          <div className="pane-title"><span>{t.previewRequests}</span><b>12</b></div>
-          <div className="request-head"><span>Method</span><span>URL</span><span>Status</span><span>Time</span></div>
-          {requests.map((request, index) => (
-            <div className={`request-row ${index === 0 ? "is-selected" : ""}`} key={request[1]}>
-              <span className={`method method-${request[0].toLowerCase()}`}>{request[0]}</span>
-              <span>{request[1]}</span>
-              <span className="status-code"><i></i>{request[2]}</span>
-              <span>{request[3]}</span>
-            </div>
-          ))}
+    <figure className="product-figure">
+      <div className="product-preview" role="img" aria-label={t.previewAlt}>
+        <div className="preview-window-bar">
+          <div className="window-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+          <span className="preview-address">localhost:3000</span>
+          <span className="preview-example">{t.previewExample}</span>
         </div>
-        <div className="detail-pane">
-          <div className="pane-title"><span>{t.previewDetail}</span><b>JSON</b></div>
-          <div className="matched-rule"><span aria-hidden="true">↳</span>{t.previewRule}</div>
-          <div className="detail-tabs"><span>Headers</span><span>Payload</span><span className="active">Response</span></div>
-          <pre aria-hidden="true"><code>{`{
-  "id": "usr_2841",
-  "name": "Ada Chen",
-  "role": "developer",
-  "plan": "team",
-  "features": [
-    "request-rewrite",
-    "response-mock"
-  ]
-}`}</code></pre>
+        <div className="preview-app-bar">
+          <span className="preview-brand"><Image src={publicPath("/reqix-logo.png")} alt="" width={21} height={21} /> Reqix</span>
+          <span className="preview-active-tab">{t.previewKicker}</span>
+          <span className="live-state"><i></i>{t.previewLive}</span>
         </div>
+        <div className="preview-toolbar">
+          <span className="preview-search"><span aria-hidden="true">⌕</span>{t.previewSearch}</span>
+          <span className="preview-create"><span aria-hidden="true">＋</span>{t.previewCreate}</span>
+        </div>
+        <div className="preview-body">
+          <div className="request-pane">
+            <div className="pane-title"><span>{t.previewRequests}</span><b>{requests.length}</b><span className="pane-meta">Fetch / XHR</span></div>
+            <div className="request-head">{t.previewColumns.map((column) => <span key={column}>{column}</span>)}</div>
+            {requests.map((request, index) => (
+              <div className={`request-row ${index === 0 ? "is-selected" : ""}`} key={request[1]}>
+                <span className={`method method-${request[0].toLowerCase()}`}>{request[0]}</span>
+                <span>{request[1]}</span>
+                <span className="status-code">{request[2]}</span>
+                <span>{request[3]}</span>
+              </div>
+            ))}
+            <div className="preview-rule-summary"><span className="rule-indicator"></span><span>{t.previewRule}</span><span>→</span></div>
+          </div>
+          <div className="detail-pane">
+            <div className="pane-title"><span>{t.previewDetail}</span><b>200 OK</b></div>
+            <div className="detail-tabs">{t.previewTabs.map((tab, index) => <span className={index === 2 ? "active" : ""} key={tab}>{tab}</span>)}</div>
+            <pre aria-hidden="true"><code>{"{\n"}{[
+              ["id", "usr_2841"], ["name", "Ada Chen"], ["role", "developer"], ["plan", "team"], ["active", true],
+            ].map(([key, value], index) => (
+              <span key={String(key)}>{"  "}<span className="code-key">{JSON.stringify(key)}</span>{": "}<span className={typeof value === "boolean" ? "code-value" : "code-string"}>{JSON.stringify(value)}</span>{index < 4 ? ",\n" : "\n"}</span>
+            ))}{"}"}</code></pre>
+            <div className="preview-response-note">{t.previewResponseNote}</div>
+          </div>
+        </div>
+        <div className="preview-statusbar"><span><i></i>{t.previewStatus}</span><span>{t.local} · {t.noAccount}</span></div>
       </div>
-      <div className="preview-pipeline" aria-hidden="true">
-        <span className="active">MATCH</span><i></i><span>REQUEST</span><i></i><span>ROUTE</span><i></i><span className="active">RESPONSE</span>
-      </div>
-    </div>
+      <figcaption><span>{t.previewCaption}</span><a href={publicPath(localizePath(locale, "/docs/devtools"))}>{t.previewGuide}<span aria-hidden="true">↗</span></a></figcaption>
+    </figure>
   );
 }
 
 export function HomePage({ locale }: { locale: Locale }) {
   const t = ui[locale].home;
   const link = (path: string) => publicPath(localizePath(locale, path));
-  const homePath = localizePath(locale, "/");
-  const docsPath = link("/docs");
-  const devtoolsPath = link("/docs/devtools");
-  const privacyPath = link("/permissions");
 
   return (
-    <SiteShell locale={locale} currentPath={homePath}>
+    <SiteShell locale={locale} currentPath={localizePath(locale, "/")}>
       <section className="hero-section">
-        <div className="hero-grid-bg" aria-hidden="true"></div>
-        <div className="shell hero-layout">
+        <div className="shell">
           <div className="hero-copy">
-            <div className="eyebrow-chip"><span></span>{t.badge}</div>
+            <p className="hero-eyebrow">{t.badge}</p>
             <h1>{t.titleLead}<em>{t.titleAccent}</em></h1>
             <p className="hero-intro">{t.intro}</p>
-            <div className="hero-actions">
-              <a className="button button-primary" href={docsPath}><span aria-hidden="true">→</span>{t.primary}</a>
-              <a className="button button-secondary" href={privacyPath}><span aria-hidden="true">◎</span>{t.secondary}</a>
-            </div>
-            <div className="hero-facts">
-              <span><i>✓</i>{t.local}</span>
-              <span><i>✓</i>{t.noAccount}</span>
-              <span><i>✓</i>{t.browsers}</span>
-            </div>
+            <DownloadActions locale={locale} />
+            <div className="hero-facts"><span>{t.local}</span><span>{t.noAccount}</span><span>{t.browsers}</span></div>
+            <a className="text-link hero-guide" href={link("/docs")}>{t.primary}<span aria-hidden="true">→</span></a>
           </div>
-          <div className="hero-preview-wrap"><ProductPreview locale={locale} /></div>
+          <ProductPreview locale={locale} />
         </div>
       </section>
 
@@ -246,76 +246,53 @@ export function HomePage({ locale }: { locale: Locale }) {
           </div>
           <div className="capability-grid">
             {t.cards.map((card, index) => (
-              <article className={`capability-card card-${index + 1}`} key={card.index}>
-                <span className="card-index">{card.index}</span>
-                <div className={`feature-visual feature-visual-${index + 1}`} aria-hidden="true">
-                  {index === 0 && <><i></i><span>GET</span><b>/api/users/me</b><em>200</em></>}
-                  {index === 1 && <><span>Q</span><i></i><span>R</span><i></i><span>M</span></>}
-                  {index === 2 && <><b>✓</b><span>Matched rule</span><em>48 ms</em></>}
-                </div>
+              <article className="capability-card" key={card.title}>
+                <div className="feature-heading"><span>{card.label}</span><span>{String(index + 1).padStart(2, "0")}</span></div>
                 <h3>{card.title}</h3><p>{card.body}</p>
+                <div className="feature-example" aria-hidden="true">
+                  {index === 0 && <><div><span>GET</span><code>/api/users/me</code></div><div><span className="example-tag">MOCK</span><code>200 OK · application/json</code></div></>}
+                  {index === 1 && <><div><span>QUERY</span><code>page=1 → page=2</code></div><div><span>HEADER</span><code>X-Environment: staging</code></div></>}
+                  {index === 2 && <><div><span>GET</span><code>/api/users/me</code></div><div><span className="example-tag">{t.previewMatched}</span><code>{t.previewRuleName}</code></div></>}
+                </div>
+                <a className="text-link" href={link(card.href)}>{card.link}<span aria-hidden="true">↗</span></a>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="section pipeline-section" id="workflow">
-        <div className="shell pipeline-layout">
-          <div className="pipeline-copy section-heading">
-            <p className="section-kicker">{t.pipelineKicker}</p>
-            <h2>{t.pipelineTitle}</h2>
-            <p>{t.pipelineIntro}</p>
-            <a className="text-link" href={link("/docs/rules")}>{ui[locale].footer.rules}<span aria-hidden="true">→</span></a>
+      <section className="section workflow-section" id="workflow">
+        <div className="shell workflow-layout">
+          <div className="section-heading workflow-copy">
+            <p className="section-kicker">{t.workflowKicker}</p><h2>{t.workflowTitle}</h2><p>{t.workflowIntro}</p>
+            <a className="text-link" href={link("/docs/devtools")}>{t.previewGuide}<span aria-hidden="true">→</span></a>
           </div>
-          <div className="pipeline-list">
-            {t.pipeline.map((item, index) => (
-              <div className="pipeline-item" key={item.label}>
-                <div className="pipeline-number">{String(index + 1).padStart(2, "0")}</div>
-                <div><span>{item.label}</span><h3>{item.title}</h3><p>{item.body}</p></div>
-                <div className="pipeline-state">{index === 0 || index === 3 ? "ON" : "OPTIONAL"}</div>
-              </div>
-            ))}
+          <ol className="workflow-list">
+            {t.steps.map((step, index) => <li key={step.title}><span className="step-number">{String(index + 1).padStart(2, "0")}</span><div><h3>{step.title}</h3><p>{step.body}</p></div></li>)}
+          </ol>
+        </div>
+      </section>
+
+      <section className="section use-cases-section">
+        <div className="shell use-cases-layout">
+          <div className="section-heading"><p className="section-kicker">{t.useCasesKicker}</p><h2>{t.useCasesTitle}</h2></div>
+          <div className="use-case-grid">
+            {t.useCases.map(([title, body], index) => <article key={title}><span>{String(index + 1).padStart(2, "0")}</span><div><h3>{title}</h3><p>{body}</p></div></article>)}
           </div>
         </div>
       </section>
 
       <section className="section local-section">
-        <div className="shell local-card">
-          <div className="privacy-orbit" aria-hidden="true"><span></span><i></i><b></b></div>
-          <div>
-            <p className="section-kicker">LOCAL-FIRST / NO TELEMETRY</p>
-            <h2>{t.localTitle}</h2>
-            <p>{t.localBody}</p>
-            <a className="text-link" href={privacyPath}>{t.localLink}<span aria-hidden="true">→</span></a>
-          </div>
-          <div className="local-stats" aria-label={locale === "zh" ? "隐私摘要" : "Privacy summary"}>
-            <div><strong>0</strong><span>{locale === "zh" ? "云端账号" : "cloud accounts"}</span></div>
-            <div><strong>0</strong><span>{locale === "zh" ? "遥测 SDK" : "telemetry SDKs"}</span></div>
-            <div><strong>24h</strong><span>{locale === "zh" ? "临时记录清理阈值" : "cleanup threshold"}</span></div>
-          </div>
+        <div className="shell local-layout">
+          <div className="section-heading"><p className="section-kicker">{t.localKicker}</p><h2>{t.localTitle}</h2><p>{t.localBody}</p><a className="text-link" href={link("/permissions")}>{t.localLink}<span aria-hidden="true">↗</span></a></div>
+          <dl className="privacy-facts">{t.privacyFacts.map(([title, body]) => <div key={title}><dt><span aria-hidden="true">✓</span>{title}</dt><dd>{body}</dd></div>)}</dl>
         </div>
       </section>
 
-      <section className="section use-cases-section">
-        <div className="shell">
-          <div className="section-heading centered-heading"><p className="section-kicker">{t.useCasesKicker}</p><h2>{t.useCasesTitle}</h2></div>
-          <div className="use-case-grid">
-            {t.useCases.map(([title, body], index) => (
-              <article key={title}><span>{String(index + 1).padStart(2, "0")}</span><h3>{title}</h3><p>{body}</p></article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="final-cta-section">
+      <section className="final-cta-section" id="download">
         <div className="shell final-cta">
-          <p className="section-kicker">{t.finalKicker}</p>
-          <h2>{t.finalTitle}</h2>
-          <div className="hero-actions">
-            <a className="button button-primary" href={docsPath}><span aria-hidden="true">→</span>{t.finalPrimary}</a>
-            <a className="button button-secondary" href={devtoolsPath}><span aria-hidden="true">⌁</span>{t.finalSecondary}</a>
-          </div>
+          <div><p className="section-kicker">{t.finalKicker}</p><h2>{t.finalTitle}</h2><p>{t.finalIntro}</p></div>
+          <div><DownloadActions locale={locale} /><a className="text-link" href={link("/docs")}>{t.primary}<span aria-hidden="true">→</span></a></div>
         </div>
       </section>
     </SiteShell>
