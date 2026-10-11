@@ -11,18 +11,19 @@
     "build": "next build",
     "build:pages": "NEXT_PUBLIC_BASE_PATH=/reqix-website next build",
     "start": "serve out",
-    "test": "npm run build:pages && node --test tests/rendered-html.test.mjs",
+    "test": "npm run build:pages && node --test tests/*.test.mjs",
     "lint": "eslint . --ignore-pattern .next --ignore-pattern out",
-    "verify:lockfile": "node scripts/verify-lockfile.mjs"
+    "verify:lockfile": "node scripts/verify-lockfile.mjs",
+    "postinstall": "node scripts/patch-next-eslint-glob.mjs"
   },
   "dependencies": {
-    "next": "16.3.5",
+    "next": "16.3.8",
     "react": "19.2.8",
     "react-dom": "19.2.8"
   },
   "devDependencies": {
     "@eslint/js": "9.39.4",
-    "@next/eslint-plugin-next": "16.3.5",
+    "@next/eslint-plugin-next": "16.3.8",
     "@tailwindcss/postcss": "4.2.1",
     "@types/node": "22.19.19",
     "@types/react": "19.2.14",
@@ -37,5 +38,16 @@
     "typescript": "5.9.3",
     "typescript-eslint": "8.59.3"
   },
-  "type": "module"
+  "type": "module",
+  "overrides": {
+    "@next/eslint-plugin-next": {
+      "fast-glob": "npm:tinyglobby@0.2.17"
+    },
+    "serve": {
+      "compression": "1.8.2"
+    },
+    "minimatch@3.1.5": {
+      "brace-expansion": "1.1.21"
+    }
+  }
 }
