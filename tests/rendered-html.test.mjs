@@ -276,17 +276,25 @@ test("首页主图把新建和编辑操作放在请求行末尾，并区分批�
     assert.equal(rows.length, 4);
     for (const [index, row] of rows.entries()) {
       const cells = [...row[1].matchAll(/<td\b[^>]*>([\s\S]*?)<\/td>/g)];
-      assert.equal(cells.length, 4);
+      assert.equal(cells.length, 6);
       assert.match(cells.at(-1)[1], new RegExp(`data-preview-action="${index === 0 ? "edit" : "create"}"`));
       assert.match(cells.at(-1)[1], route === "/" ? /title="(?:新建规则|编辑规则)"/ : /title="(?:New rule|Edit rule)"/);
     }
     assert.equal((tableBody.match(/class="devtools-check is-checked"/g) || []).length, 2);
     assert.match(preview, /class="devtools-batch"[\s\S]*?\(2\)/);
     assert.doesNotMatch(preview, /class="preview-create"/);
+    assert.doesNotMatch(preview, /devtools-heading|devtools-count|reqix-logo/);
+    assert.match(preview, route === "/" ? /清空网络请求/ : /Clear network requests/);
+    assert.match(preview, route === "/" ? /保留日志/ : /Keep log/);
+    assert.match(preview, route === "/" ? /管理中心/ : /Management Center/);
+    assert.match(preview, /class="devtools-keep-log"><span class="devtools-check"/);
+    const searchRow = preview.slice(preview.indexOf('class="devtools-search-row"'), preview.indexOf('class="devtools-type-filters"'));
+    assert.match(searchRow, /class="devtools-search"/);
+    assert.match(searchRow, /class="devtools-batch"/);
     assert.match(preview, /class="is-active">Fetch\/XHR/);
     assert.match(preview, route === "/" ? /静态推算的处理预览/ : /static processing preview computed from rule/);
   }
-  for (const icon of ["file-add", "edit", "clear"]) {
+  for (const icon of ["file-add", "edit", "clear", "appstore"]) {
     const svg = await readFile(new URL(`../out/icons/ant-design/${icon}.svg`, import.meta.url), "utf8");
     assert.match(svg, /xmlns="http:\/\/www\.w3\.org\/2000\/svg"/, "CSS 蒙版使用的独立 SVG 必须保留 XML 命名空间");
   }

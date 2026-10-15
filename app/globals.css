@@ -112,23 +112,27 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 .mobile-menu nav .mobile-download-link { margin-top: 6px; color: #fff; background: #285bc2; text-align: center; }
 
 .hero-section { padding: 68px 0 0; }
-.hero-copy { text-align: center; max-width: 840px; margin-inline: auto; }
-.hero-eyebrow { color: var(--blue); margin: 0 0 19px; font-size: 13px; font-weight: 600; letter-spacing: .06em; }
-.hero-copy h1 { margin: 0; font-size: clamp(44px, 5vw, 66px); line-height: 1.17; letter-spacing: -.048em; font-weight: 730; text-wrap: balance; }
+.hero-copy { text-align: center; max-width: 900px; margin-inline: auto; }
+.hero-eyebrow { color: var(--blue); margin: 0 0 18px; font-size: 14px; font-weight: 600; letter-spacing: .02em; }
+/* 中文保留自然字距；标题与说明按阅读顺序分层，不把整段文字挤在同一行。 */
+.hero-copy h1 { margin: 0; font-size: clamp(42px, 4.7vw, 62px); line-height: 1.3; letter-spacing: -.025em; font-weight: 700; text-wrap: balance; }
+:lang(zh-CN) .hero-copy h1 { letter-spacing: 0; }
 .hero-copy h1 em { display: block; color: var(--blue); font-style: normal; }
-.hero-intro { max-width: 600px; margin: 24px auto 0; font-size: 17px; color: var(--text-soft); line-height: 1.85; text-wrap: pretty; }
+.hero-intro { display: grid; gap: 6px; max-width: 680px; margin: 22px auto 0; line-height: 1.75; text-wrap: pretty; }
+.hero-intro-lead { color: var(--text); font-size: 18px; font-weight: 500; }
+.hero-intro-detail { color: var(--text-soft); font-size: 16px; }
 .download-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 28px; }
 .store-button { min-height: 50px; min-width: 198px; }
 .store-button > span:first-child { font-size: 20px; font-weight: 400; }
 .store-arrow { margin-left: 12px; font-weight: 400; opacity: .7; }
-.hero-facts { display: flex; flex-wrap: wrap; justify-content: center; gap: 0; margin-top: 18px; color: var(--text-muted); font-size: 12px; }
+.hero-facts { display: flex; flex-wrap: wrap; justify-content: center; gap: 0; margin-top: 18px; color: var(--text-soft); font-size: 13px; }
 .hero-facts span + span::before { content: "·"; margin: 0 12px; color: var(--text-muted); }
 .text-link { display: inline-flex; align-items: center; gap: 8px; color: var(--blue); font-size: 13px; font-weight: 500; line-height: 1.6; }
 .text-link:hover { text-decoration: underline; text-underline-offset: 4px; }
-.hero-guide { margin-top: 12px; color: var(--text-soft); font-size: 12px; }
+.hero-guide { margin-top: 12px; color: var(--text-soft); font-size: 13px; }
 
 /* 示意界面使用可读的实际字号；窄屏保留请求和响应两部分，改为纵向阅读。 */
-.product-figure { margin: 48px auto 0; max-width: 1060px; }
+.product-figure { margin: 44px auto 0; max-width: 1160px; }
 .product-figure figcaption { display: flex; justify-content: space-between; gap: 16px; margin-top: 15px; color: var(--text-muted); font-size: 12px; }
 .product-figure figcaption a { display: inline-flex; gap: 8px; color: var(--text-soft); }
 .product-figure figcaption a:hover { color: var(--blue); }
@@ -253,7 +257,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
   .site-header { height: 66px; }
   .hero-section { padding-top: 52px; }
   .hero-copy h1 { font-size: clamp(40px, 6.8vw, 54px); }
-  .hero-intro { font-size: 16px; max-width: 550px; }
+  .hero-intro { max-width: 620px; }
   .product-figure { margin-top: 40px; }
   .section { padding: 72px 0; }
   .split-heading { gap: 30px; }
@@ -292,15 +296,17 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
   .language-link { font-size: 11px; }
   .language-icon { display: none; }
   .hero-section { padding-top: 40px; }
-  .hero-eyebrow { font-size: 11px; margin-bottom: 17px; }
-  .hero-copy h1 { font-size: clamp(31px, 8.8vw, 45px); letter-spacing: -.04em; line-height: 1.25; }
-  .hero-intro { font-size: 14px; margin-top: 20px; max-width: 380px; }
+  .hero-eyebrow { font-size: 12px; margin-bottom: 17px; }
+  .hero-copy h1 { font-size: clamp(31px, 8.4vw, 44px); letter-spacing: -.025em; line-height: 1.35; }
+  .hero-intro { margin-top: 20px; max-width: 380px; gap: 8px; }
+  .hero-intro-lead { font-size: 16px; }
+  .hero-intro-detail { font-size: 14px; }
   .download-actions { gap: 9px; margin-top: 25px; }
   .store-button { min-width: 0; flex: 1; min-height: 46px; padding-inline: 9px; font-size: 12px; gap: 7px; }
   .store-arrow { display: none; }
-  .hero-facts { font-size: 10px; }
+  .hero-facts { font-size: 11px; }
   .hero-facts span + span::before { margin-inline: 7px; }
-  .hero-guide { font-size: 11px; }
+  .hero-guide { font-size: 12px; }
   .product-figure { margin-top: 32px; }
   .product-figure figcaption { font-size: 10px; flex-direction: column; gap: 6px; }
   .section { padding: 58px 0; }

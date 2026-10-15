@@ -172,7 +172,7 @@ export function HomePage({ locale }: { locale: Locale }) {
           <div className="hero-copy">
             <p className="hero-eyebrow">{t.badge}</p>
             <h1>{t.titleLead}<em>{t.titleAccent}</em></h1>
-            <p className="hero-intro">{t.intro}</p>
+            <p className="hero-intro"><span className="hero-intro-lead">{t.intro}</span><span className="hero-intro-detail">{t.introDetail}</span></p>
             <DownloadActions locale={locale} />
             <div className="hero-facts"><span>{t.local}</span><span>{t.noAccount}</span><span>{t.browsers}</span></div>
             <a className="text-link hero-guide" href={link("/docs")}>{t.primary}<span aria-hidden="true">→</span></a>
