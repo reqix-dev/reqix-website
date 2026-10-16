@@ -16,7 +16,6 @@ const localizedRoutes = [
   ["/", "/en"],
   ["/permissions", "/en/permissions"],
   ["/privacy", "/en/privacy"],
-  ["/changelog", "/en/changelog"],
   ["/download", "/en/download"],
 ];
 
@@ -120,7 +119,7 @@ test("全站导航提供社区入口且页脚不再重复链接", async () => {
     siteSource.indexOf("function SiteFooter"),
     siteSource.indexOf("function SiteShell"),
   );
-  assert.equal((footerSource.match(/path\("\/changelog"\)/g) || []).length, 1);
+  assert.equal((footerSource.match(/path\("\/changelog"\)/g) || []).length, 0);
   assert.equal((footerSource.match(/path\("\/download"\)/g) || []).length, 1);
   assert.doesNotMatch(footerSource, /t\.source/);
 });
@@ -163,17 +162,17 @@ test("静态导出中的站内页面链接和锚点均有目标", async () => {
   }
 });
 
-test("公开页面不再提供文档入口或导出产品指南路由", async () => {
+test("公开页面不再提供已下线的文档和更新记录", async () => {
   const files = await exportedHtmlFiles();
   for (const file of files) {
-    assert.doesNotMatch(file.pathname, /\/(?:en\/)?docs\//);
+    assert.doesNotMatch(file.pathname, /\/(?:en\/)?(?:docs|changelog)\//);
     const html = await readFile(file, "utf8");
-    assert.doesNotMatch(html, new RegExp('href="(?:/reqix-website)?/(?:en/)?docs(?:[/"#?])'));
+    assert.doesNotMatch(html, new RegExp('href="(?:/reqix-website)?/(?:en/)?(?:docs|changelog)(?:[/"#?])'));
   }
-  // 同时检查旧地址没有残留的静态入口，不能仅隐藏导航后继续发布文档。
+  // 同时检查已下线页面没有残留静态入口，避免仅隐藏导航后继续公开发布。
   for (const locale of ["", "en/"]) {
-    for (const route of ["", "devtools/", "rules/", "page-scripts/"]) {
-      await assert.rejects(access(new URL(`../out/${locale}docs/${route}index.html`, import.meta.url)), { code: "ENOENT" });
+    for (const route of ["docs/", "docs/devtools/", "docs/rules/", "docs/page-scripts/", "changelog/"]) {
+      await assert.rejects(access(new URL(`../out/${locale}${route}index.html`, import.meta.url)), { code: "ENOENT" });
     }
   }
 });

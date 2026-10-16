@@ -1,6 +1,6 @@
 # Reqix Website
 
-Reqix 官方产品网站，公开提供中英文首页、下载入口、隐私政策、权限说明和更新记录。产品指南暂不对外发布，站点不生成 `/docs/` 与 `/en/docs/` 路由。网站使用 Next.js 静态导出并部署到 GitHub Pages。
+Reqix 官方产品网站，公开提供中英文首页、下载入口、隐私政策和权限说明。产品指南与更新记录暂不对外发布，站点不生成 `/docs/`、`/en/docs/`、`/changelog/` 与 `/en/changelog/` 路由。网站使用 Next.js 静态导出并部署到 GitHub Pages。
 
 ## 本地开发
 

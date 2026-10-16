@@ -12,7 +12,6 @@ export type ArticleId =
   | "page-scripts"
   | "privacy"
   | "permissions"
-  | "changelog"
   | "download";
 
 export interface ArticleSection {
@@ -39,7 +38,6 @@ export const ui = {
       product: "产品",
       workflow: "工作方式",
       privacy: "隐私",
-      changelog: "更新记录",
       community: "社区讨论",
       download: "下载 Reqix",
       theme: "切换主题",
@@ -119,7 +117,6 @@ export const ui = {
       legal: "信任",
       permissions: "权限说明",
       privacy: "隐私政策",
-      changelog: "更新记录",
       community: "论坛讨论",
       issues: "问题反馈",
       rights: "Reqix 是一个本地优先的开发者工具。",
@@ -137,7 +134,6 @@ export const ui = {
       product: "Product",
       workflow: "How it works",
       privacy: "Privacy",
-      changelog: "Changelog",
       community: "Community",
       download: "Get Reqix",
       theme: "Switch theme",
@@ -217,7 +213,6 @@ export const ui = {
       legal: "Trust",
       permissions: "Permissions",
       privacy: "Privacy policy",
-      changelog: "Changelog",
       community: "Discussions",
       issues: "Report an issue",
       rights: "Reqix is a local-first developer tool.",
@@ -232,11 +227,10 @@ export const ui = {
   },
 } as const;
 
-/** 官网仅发布信任、版本和安装信息；产品指南内容保留为草稿，不注册公开路由。 */
+/** 官网仅发布信任和安装信息；产品指南内容保留为草稿，不注册公开路由。 */
 export const articleOrder: ArticleId[] = [
   "permissions",
   "privacy",
-  "changelog",
   "download",
 ];
 
@@ -247,7 +241,6 @@ export const articlePaths: Record<ArticleId, string> = {
   "page-scripts": "/docs/page-scripts",
   privacy: "/privacy",
   permissions: "/permissions",
-  changelog: "/changelog",
   download: "/download",
 };
 
@@ -452,16 +445,6 @@ const zhArticles: Record<ArticleId, Article> = {
       { title: "10. 联系方式与商店数据使用要求", paragraphs: ["如对本政策、权限或数据处理方式有疑问，请通过 Reqix GitHub Discussions 联系维护者。", "Microsoft Edge 版按照 Microsoft Edge Add-ons 开发者政策中有关个人信息、权限和数据使用的要求处理数据。数据仅用于提供或改进本政策所述的单一用途和用户可见功能。", "Chrome 版对从浏览器和相关 API 获得的信息的使用，同时遵守 Chrome Web Store User Data Policy，包括 Limited Use 要求。"], links: [{ label: "前往 Reqix GitHub Discussions", href: "https://github.com/reqix-dev/reqix/discussions" }, { label: "查看 Microsoft Edge Add-ons 隐私与数据政策", href: "https://learn.microsoft.com/en-us/legal/microsoft-edge/extensions/developer-policies#15-personal-information" }, { label: "查看 Chrome 版适用的 Limited Use 政策", href: "https://developer.chrome.com/docs/webstore/program-policies/limited-use" }] },
     ],
   },
-  changelog: {
-    eyebrow: "更新记录",
-    title: "Reqix 的变化，保持透明",
-    description: "记录用户可感知的新增能力、行为调整和重要修复。",
-    updated: "当前发布通道：Chrome Web Store · Microsoft Edge Add-ons",
-    sections: [
-      { title: "1.0.0 · 已发布", items: ["DevTools 查看 Fetch/XHR 详情，并按 URL、路径或名称搜索，支持单条与批量创建规则。", "统一的请求匹配、请求修改、Redirect、取消、响应 Mock、Header 修改和延迟处理链。", "Popup 提供网站或全站开关、命中规则、页面脚本、快捷创建和请求录制入口。", "首次开启请求接管前披露本地数据处理范围并要求明确确认。", "页面脚本支持 URL、生命周期和运行环境设置，并提供导入、导出与权限指引。", "配置导入导出、匹配冲突提示、本地隐私说明与中英文界面。"], links: [{ label: "在 Chrome Web Store 查看 Reqix", href: CHROME_WEB_STORE_URL }, { label: "在 Microsoft Edge Add-ons 查看 Reqix", href: EDGE_ADDONS_URL }] },
-      { title: "发布原则", paragraphs: ["Reqix 已公开发布。后续涉及规则格式、存储结构或消息协议的调整，会同步评估已发布配置的兼容性和升级路径。"] },
-    ],
-  },
   download: {
     eyebrow: "获取 Reqix",
     title: "选择你的 Chromium 浏览器",
@@ -564,16 +547,6 @@ const enArticles: Record<ArticleId, Article> = {
       { title: "8. Official website", paragraphs: ["The official Reqix website is a static site hosted on GitHub Pages. It has no account system or developer-operated analytics. The site stores only your manually selected color theme in browser localStorage. Clearing site data resets this preference; it is not sent to a server and does not access extension data. When a GitHub Pages site is visited, GitHub logs and stores the visitor's IP address for security purposes and may process service-usage data such as request time, device, or browser information under its privacy statement."], links: [{ label: "Read GitHub Pages data-collection details", href: "https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages#data-collection" }, { label: "Read the GitHub Privacy Statement", href: "https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" }] },
       { title: "9. Children's privacy and policy changes", paragraphs: ["Reqix is intended for developers and testers, is not directed to children, and does not knowingly collect children's personal information. If data practices change materially, this page's date will be updated and Reqix will provide prominent disclosure and consent where applicable store policies require it."] },
       { title: "10. Contact and store data-use requirements", paragraphs: ["For questions about this policy, permissions, or data handling, contact the maintainers through Reqix GitHub Discussions.", "The Microsoft Edge version handles data in accordance with the personal-information, permission, and data-use requirements of the Microsoft Edge Add-ons developer policies. Data is used only to provide or improve the single purpose and user-visible features described in this policy.", "For the Chrome version, Reqix's use of information received from browsers and related APIs will also adhere to the Chrome Web Store User Data Policy, including the Limited Use requirements."], links: [{ label: "Open Reqix GitHub Discussions", href: "https://github.com/reqix-dev/reqix/discussions" }, { label: "Read the Microsoft Edge Add-ons privacy and data policies", href: "https://learn.microsoft.com/en-us/legal/microsoft-edge/extensions/developer-policies#15-personal-information" }, { label: "Read the Limited Use policy for the Chrome version", href: "https://developer.chrome.com/docs/webstore/program-policies/limited-use" }] },
-    ],
-  },
-  changelog: {
-    eyebrow: "Changelog",
-    title: "Reqix changes, recorded clearly",
-    description: "User-visible capabilities, behavior changes, and important fixes.",
-    updated: "Release channels: Chrome Web Store · Microsoft Edge Add-ons",
-    sections: [
-      { title: "1.0.0 · Released", items: ["Inspect Fetch/XHR details in DevTools, search by URL, path, or name, and create one rule or a batch.", "One pipeline for matching, request rewrites, redirects, cancellation, response mocks, header changes, and delays.", "A lightweight Popup for per-site or all-site state, matched rules, page scripts, quick creation, and request recording.", "Local-data disclosure and explicit confirmation before request interception is enabled for the first time.", "Page scripts with URL, lifecycle, and execution-world settings plus import, export, and permission guidance.", "Configuration import and export, match-conflict warnings, local privacy information, and Chinese/English UI."], links: [{ label: "View Reqix on the Chrome Web Store", href: CHROME_WEB_STORE_URL }, { label: "View Reqix on Microsoft Edge Add-ons", href: EDGE_ADDONS_URL }] },
-      { title: "Release principle", paragraphs: ["Reqix is publicly available. Future changes to rule formats, storage structures, or message protocols will account for compatibility and upgrade paths for published configurations."] },
     ],
   },
   download: {

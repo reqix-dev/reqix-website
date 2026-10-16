@@ -53,7 +53,6 @@ function SiteHeader({ locale, currentPath }: { locale: Locale; currentPath: stri
       <a href={`${home}#product`}>{t.product}</a>
       <a href={`${home}#workflow`}>{t.workflow}</a>
       <a href={COMMUNITY_URL}>{t.community}</a>
-      <a href={link("/changelog")}>{t.changelog}</a>
     </>
   );
 
@@ -108,7 +107,6 @@ function SiteFooter({ locale }: { locale: Locale }) {
           <h2>{t.resources}</h2>
           <a href={COMMUNITY_URL}>{t.community}</a>
           <a href={ISSUES_URL}>{t.issues}</a>
-          <a href={path("/changelog")}>{t.changelog}</a>
         </div>
         <div>
           <h2>{t.legal}</h2>
