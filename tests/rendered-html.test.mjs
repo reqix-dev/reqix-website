@@ -139,8 +139,8 @@ test("GitHub Pages 构建使用仓库子路径", async () => {
   const html = await readRoute("/");
   assert.match(html, /\/reqix-website\/_next\/static\//);
   assert.match(html, /href="\/reqix-website\/#workflow"/);
-  assert.match(html, /src="\/reqix-website\/reqix-logo\.png"/);
-  assert.match(html, /href="\/reqix-website\/reqix-icon\.png"/);
+  assert.match(html, /src="\/reqix-website\/_next\/static\/media\/reqix-logo\.[^"/]+\.png"/);
+  assert.match(html, /href="\/reqix-website\/_next\/static\/media\/reqix-icon\.[^"/]+\.png"/);
   assert.match(html, /https:\/\/reqix-dev\.github\.io\/reqix-website\/og\.png/);
 });
 

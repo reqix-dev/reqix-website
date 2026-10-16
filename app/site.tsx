@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
+// 静态导入为品牌图片生成内容指纹，避免发布后继续命中浏览器中的旧 Logo。
+import reqixLogo from "../public/reqix-logo.png";
 import { ProductPreview } from "./product-preview";
 import { ThemeToggle, MobileMenu } from "./site-controls";
 import {
@@ -23,7 +25,7 @@ function ReqixLogo() {
     <span className="brand-lockup">
       <span className="brand-mark-wrap" aria-hidden="true">
         <Image
-          src={publicPath("/reqix-logo.png")}
+          src={reqixLogo}
           alt=""
           width={36}
           height={36}

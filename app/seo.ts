@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import reqixIcon from "../public/reqix-icon.png";
 import {
   articlePaths,
   getArticle,
@@ -102,7 +103,6 @@ function socialMetadata(
 /** 根布局只提供语言级默认值；具体路由负责声明自己的 canonical。 */
 export function createRootMetadata(locale: Locale): Metadata {
   const config = localeConfig[locale];
-  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
   return {
     metadataBase: new URL(`${siteUrl}/`),
@@ -113,9 +113,9 @@ export function createRootMetadata(locale: Locale): Metadata {
     },
     description: config.homeDescription,
     icons: {
-      icon: `${basePath}/reqix-icon.png`,
-      shortcut: `${basePath}/reqix-icon.png`,
-      apple: `${basePath}/reqix-icon.png`,
+      icon: reqixIcon.src,
+      shortcut: reqixIcon.src,
+      apple: reqixIcon.src,
     },
   };
 }
