@@ -14,10 +14,6 @@ const publishedOrigin = "https://reqix-dev.github.io/reqix-website";
 
 const localizedRoutes = [
   ["/", "/en"],
-  ["/docs", "/en/docs"],
-  ["/docs/devtools", "/en/docs/devtools"],
-  ["/docs/rules", "/en/docs/rules"],
-  ["/docs/page-scripts", "/en/docs/page-scripts"],
   ["/permissions", "/en/permissions"],
   ["/privacy", "/en/privacy"],
   ["/changelog", "/en/changelog"],
@@ -60,23 +56,23 @@ function resolveExportedTarget(sourceFile, rawHref) {
 test("静态导出中文产品首页", async () => {
   const html = await readRoute("/");
   assert.match(html, /Reqix/);
-  assert.match(html, /把真实请求/);
+  assert.match(html, /Mock 接口响应/);
+  assert.match(html, /修改与重定向请求/);
   assert.match(html, /DevTools/);
   assert.match(html, /本地优先/);
   assert.match(html, /Chrome \/ Edge 138\+/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|react-loading-skeleton/i);
 });
 
-test("静态导出英文、文档和隐私路由", async () => {
-  const [english, docs, privacy, englishPrivacy] = await Promise.all([
+test("静态导出英文首页和隐私路由", async () => {
+  const [english, privacy, englishPrivacy] = await Promise.all([
     readRoute("/en"),
-    readRoute("/docs"),
     readRoute("/privacy"),
     readRoute("/en/privacy"),
   ]);
 
-  assert.match(english, /Turn real traffic/);
-  assert.match(docs, /安装后，约 1 分钟创建第一条请求规则/);
+  assert.match(english, /Mock API responses/);
+  assert.match(english, /Modify and redirect requests/);
   assert.match(privacy, /快照和按日命中日志超过 24 小时后/);
   assert.match(privacy, /首次开启某个网站或全站请求接管前/);
   assert.match(privacy, /主动打开 Reqix DevTools 面板/);
@@ -93,17 +89,15 @@ test("静态导出英文、文档和隐私路由", async () => {
   assert.doesNotMatch(privacy, /reqix\.dev/);
 });
 
-test("中英文安装文档指向已发布的 Chrome 与 Edge 商店页面", async () => {
+test("中英文下载页指向已发布的 Chrome 与 Edge 商店页面", async () => {
   const chromeStorePath = "reqix-intercept-modify-mo/jglhpmlcngcdkkdfjphlgfgbdabckfji";
   const edgeStorePath = "jaiphjpnbgpfgnikcpbpaceojfggdcii";
-  const [docs, englishDocs, download, englishDownload] = await Promise.all([
-    readRoute("/docs"),
-    readRoute("/en/docs"),
+  const [download, englishDownload] = await Promise.all([
     readRoute("/download"),
     readRoute("/en/download"),
   ]);
 
-  for (const html of [docs, englishDocs, download, englishDownload]) {
+  for (const html of [download, englishDownload]) {
     assert.match(html, new RegExp(chromeStorePath));
     assert.match(html, new RegExp(edgeStorePath));
     assert.doesNotMatch(html, /等待 Chrome Web Store|Wait for the official Chrome|商店页面正在准备|store listing is in preparation|计划跟进|Planned|尚未提供|not yet available/i);
@@ -144,7 +138,7 @@ test("桌面端和移动端获取入口打开浏览器下载选择页", async ()
 test("GitHub Pages 构建使用仓库子路径", async () => {
   const html = await readRoute("/");
   assert.match(html, /\/reqix-website\/_next\/static\//);
-  assert.match(html, /href="\/reqix-website\/docs"/);
+  assert.match(html, /href="\/reqix-website\/#workflow"/);
   assert.match(html, /src="\/reqix-website\/reqix-logo\.png"/);
   assert.match(html, /href="\/reqix-website\/reqix-icon\.png"/);
   assert.match(html, /https:\/\/reqix-dev\.github\.io\/reqix-website\/og\.png/);
@@ -165,6 +159,21 @@ test("静态导出中的站内页面链接和锚点均有目标", async () => {
       }
       const target = resolveExportedTarget(file, href);
       if (target) await access(target);
+    }
+  }
+});
+
+test("公开页面不再提供文档入口或导出产品指南路由", async () => {
+  const files = await exportedHtmlFiles();
+  for (const file of files) {
+    assert.doesNotMatch(file.pathname, /\/(?:en\/)?docs\//);
+    const html = await readFile(file, "utf8");
+    assert.doesNotMatch(html, new RegExp('href="(?:/reqix-website)?/(?:en/)?docs(?:[/"#?])'));
+  }
+  // 同时检查旧地址没有残留的静态入口，不能仅隐藏导航后继续发布文档。
+  for (const locale of ["", "en/"]) {
+    for (const route of ["", "devtools/", "rules/", "page-scripts/"]) {
+      await assert.rejects(access(new URL(`../out/${locale}docs/${route}index.html`, import.meta.url)), { code: "ENOENT" });
     }
   }
 });

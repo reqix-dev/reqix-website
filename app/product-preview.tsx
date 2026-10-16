@@ -1,4 +1,4 @@
-import { localizePath, publicPath, ui, type Locale } from "./site-content";
+import { publicPath, ui, type Locale } from "./site-content";
 import "./product-preview.css";
 
 /** 官网独立绘制公开交互示意；仅使用虚构请求，不引入插件实现或存储数据。 */
@@ -75,7 +75,7 @@ export function ProductPreview({ locale }: { locale: Locale }) {
           </div>
         </div>
       </div>
-      <figcaption><span>{t.previewCaption}</span><a href={publicPath(localizePath(locale, "/docs/devtools"))}>{t.previewGuide}<span aria-hidden="true">↗</span></a></figcaption>
+      <figcaption><span>{t.previewCaption}</span><a href="#workflow">{t.previewGuide}<span aria-hidden="true">↗</span></a></figcaption>
     </figure>
   );
 }

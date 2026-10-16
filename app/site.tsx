@@ -25,8 +25,8 @@ function ReqixLogo() {
         <Image
           src={publicPath("/reqix-logo.png")}
           alt=""
-          width={29}
-          height={29}
+          width={36}
+          height={36}
           className="brand-mark"
           priority
         />
@@ -45,13 +45,11 @@ function SiteHeader({ locale, currentPath }: { locale: Locale; currentPath: stri
   const t = ui[locale].nav;
   const link = (path: string) => publicPath(localizePath(locale, path));
   const home = link("/");
-  const docs = link("/docs");
 
   const nav = (
     <>
       <a href={`${home}#product`}>{t.product}</a>
       <a href={`${home}#workflow`}>{t.workflow}</a>
-      <a href={docs}>{t.docs}</a>
       <a href={COMMUNITY_URL}>{t.community}</a>
       <a href={link("/changelog")}>{t.changelog}</a>
     </>
@@ -101,10 +99,8 @@ function SiteFooter({ locale }: { locale: Locale }) {
         </div>
         <div>
           <h2>{t.product}</h2>
-          <a href={path("/docs")}>{t.docs}</a>
-          <a href={path("/docs/devtools")}>{t.devtools}</a>
-          <a href={path("/docs/rules")}>{t.rules}</a>
-          <a href={path("/docs/page-scripts")}>{t.scripts}</a>
+          <a href={`${path("/")}#product`}>{ui[locale].nav.product}</a>
+          <a href={`${path("/")}#workflow`}>{ui[locale].nav.workflow}</a>
         </div>
         <div>
           <h2>{t.resources}</h2>
@@ -175,7 +171,7 @@ export function HomePage({ locale }: { locale: Locale }) {
             <p className="hero-intro"><span className="hero-intro-lead">{t.intro}</span><span className="hero-intro-detail">{t.introDetail}</span></p>
             <DownloadActions locale={locale} />
             <div className="hero-facts"><span>{t.local}</span><span>{t.noAccount}</span><span>{t.browsers}</span></div>
-            <a className="text-link hero-guide" href={link("/docs")}>{t.primary}<span aria-hidden="true">→</span></a>
+            <a className="text-link hero-guide" href="#workflow">{t.primary}<span aria-hidden="true">→</span></a>
           </div>
           <ProductPreview locale={locale} />
         </div>
@@ -197,7 +193,6 @@ export function HomePage({ locale }: { locale: Locale }) {
                   {index === 1 && <><div><span>QUERY</span><code>page=1 → page=2</code></div><div><span>HEADER</span><code>X-Environment: staging</code></div></>}
                   {index === 2 && <><div><span>GET</span><code>/api/users/me</code></div><div><span className="example-tag">{t.previewMatched}</span><code>{t.previewRuleName}</code></div></>}
                 </div>
-                <a className="text-link" href={link(card.href)}>{card.link}<span aria-hidden="true">↗</span></a>
               </article>
             ))}
           </div>
@@ -208,7 +203,6 @@ export function HomePage({ locale }: { locale: Locale }) {
         <div className="shell workflow-layout">
           <div className="section-heading workflow-copy">
             <p className="section-kicker">{t.workflowKicker}</p><h2>{t.workflowTitle}</h2><p>{t.workflowIntro}</p>
-            <a className="text-link" href={link("/docs/devtools")}>{t.previewGuide}<span aria-hidden="true">→</span></a>
           </div>
           <ol className="workflow-list">
             {t.steps.map((step, index) => <li key={step.title}><span className="step-number">{String(index + 1).padStart(2, "0")}</span><div><h3>{step.title}</h3><p>{step.body}</p></div></li>)}
@@ -235,7 +229,7 @@ export function HomePage({ locale }: { locale: Locale }) {
       <section className="final-cta-section" id="download">
         <div className="shell final-cta">
           <div><p className="section-kicker">{t.finalKicker}</p><h2>{t.finalTitle}</h2><p>{t.finalIntro}</p></div>
-          <div><DownloadActions locale={locale} /><a className="text-link" href={link("/docs")}>{t.primary}<span aria-hidden="true">→</span></a></div>
+          <div><DownloadActions locale={locale} /><a className="text-link" href="#workflow">{t.primary}<span aria-hidden="true">→</span></a></div>
         </div>
       </section>
     </SiteShell>
@@ -262,9 +256,7 @@ export function ArticlePage({ locale, id }: { locale: Locale; id: ArticleId }) {
         <aside className="docs-sidebar">
           <div className="sidebar-label">{t.menu}</div>
           <nav aria-label={t.menu}>
-            {articleOrder.slice(0, 4).map((item) => <a key={item} className={item === id ? "active" : ""} aria-current={item === id ? "page" : undefined} href={link(articlePaths[item])}>{articleLabel(locale, item)}</a>)}
-            <div className="sidebar-label sidebar-group">{locale === "zh" ? "信任与发布" : "Trust & release"}</div>
-            {articleOrder.slice(4).map((item) => <a key={item} className={item === id ? "active" : ""} aria-current={item === id ? "page" : undefined} href={link(articlePaths[item])}>{articleLabel(locale, item)}</a>)}
+            {articleOrder.map((item) => <a key={item} className={item === id ? "active" : ""} aria-current={item === id ? "page" : undefined} href={link(articlePaths[item])}>{articleLabel(locale, item)}</a>)}
           </nav>
         </aside>
 

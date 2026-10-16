@@ -19,7 +19,7 @@ const localeConfig = {
       "在 Chrome 与 Edge 的 DevTools 中查看 Fetch/XHR，并快速创建 Mock、请求改写与重定向规则。",
     shareTitle: "Reqix — 拦截、改写与 Mock 网络请求",
     shareDescription:
-      "从真实 Fetch/XHR 创建清晰、可控的请求拦截与 API Mock 规则。",
+      "Mock 接口响应，修改请求参数、Header 与请求体，重定向请求，在浏览器里完成 API 调试。",
     imageAlt: "Reqix 网络请求拦截与 API Mock 工具",
   },
   en: {
@@ -31,7 +31,7 @@ const localeConfig = {
       "Inspect Fetch/XHR in Chrome and Edge DevTools, then create precise mock, rewrite, redirect, and delay rules.",
     shareTitle: "Reqix — Intercept, rewrite, and mock network requests",
     shareDescription:
-      "Turn real Fetch/XHR traffic into clear, controlled interception and API mocking rules.",
+      "Mock API responses, modify parameters, headers, and payloads, and redirect requests directly in your browser.",
     imageAlt: "Reqix network interception and API mocking tool",
   },
 } as const;

@@ -86,7 +86,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 .header-inner { height: 100%; display: flex; align-items: center; justify-content: space-between; gap: 28px; }
 .brand-link, .brand-lockup { display: inline-flex; align-items: center; flex: none; }
 .brand-lockup { gap: 9px; }
-.brand-mark-wrap, .brand-mark { width: 29px; height: 29px; object-fit: contain; }
+.brand-mark-wrap, .brand-mark { width: 36px; height: 36px; object-fit: contain; }
 .brand-name { font-size: 23px; font-weight: 750; letter-spacing: -.06em; }
 .desktop-nav { display: flex; align-items: center; gap: 24px; margin-left: auto; }
 .desktop-nav a, .language-link { color: var(--text-soft); font-size: 13px; font-weight: 500; transition: color .18s; }
@@ -289,7 +289,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
   .header-inner { gap: 12px; }
   .header-actions { gap: 13px; }
   .brand-name { font-size: 21px; }
-  .brand-mark, .brand-mark-wrap { width: 25px; height: 25px; }
+  .brand-mark, .brand-mark-wrap { width: 31px; height: 31px; }
   .brand-lockup { gap: 6px; }
   .desktop-download { display: none; }
   .theme-toggle { font-size: 10px; gap: 3px; }
